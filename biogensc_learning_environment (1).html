@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioGenSC - Bioremediation with Generative AI in Sustainable Chemistry</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+    .pulse-glow {
+      animation: pulse-slow 3s infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Header / Navigation Bar -->
+  <header class="bg-emerald-900 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-emerald-500 text-emerald-950 p-2 rounded-lg font-bold flex items-center justify-center">
+          <i class="fa-solid fa-flask-vial text-xl animate-bounce"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-extrabold tracking-tight">BioGenSC</h1>
+          <p class="text-xs text-emerald-300">Bioremediation with GenAI • Form 5 Biology</p>
+        </div>
+      </div>
+      
+      <!-- Bilingual Toggle -->
+      <div class="flex items-center space-x-4">
+        <button id="langToggle" onclick="toggleLanguage()" class="bg-emerald-800 hover:bg-emerald-700 text-xs font-semibold py-1 px-3 rounded-full border border-emerald-600 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-language text-sm"></i>
+          <span id="langLabel">Switch to Bahasa Melayu</span>
+        </button>
+        <button onclick="speakPageText()" class="bg-emerald-800 hover:bg-emerald-700 text-xs font-semibold py-1 px-2 rounded-full border border-emerald-600 transition" title="Narration">
+          <i class="fa-solid fa-volume-high"></i> Listen
+        </button>
+      </div>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="bg-emerald-950 border-t border-emerald-800/50">
+      <div class="max-w-7xl mx-auto px-4 overflow-x-auto custom-scroll">
+        <nav class="flex space-x-1 py-2 min-w-max">
+          <button onclick="switchTab('page1')" id="tab-page1" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition duration-200 bg-emerald-700 text-white shadow-sm">
+            <i class="fa-solid fa-house mr-1.5"></i> <span data-en="Home & Intro" data-ms="Utama & Pengenalan">Home & Intro</span>
+          </button>
+          <button onclick="switchTab('page2')" id="tab-page2" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition duration-200 text-emerald-300 hover:text-white">
+            <i class="fa-solid fa-flask mr-1.5"></i> <span data-en="Virtual Experiment" data-ms="Eksperimen Maya">Virtual Experiment</span>
+          </button>
+          <button onclick="switchTab('page3')" id="tab-page3" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition duration-200 text-emerald-300 hover:text-white">
+            <i class="fa-solid fa-layer-group mr-1.5"></i> <span data-en="Subscales" data-ms="Subskala">Subscales</span>
+          </button>
+          <button onclick="switchTab('page4')" id="tab-page4" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition duration-200 text-emerald-300 hover:text-white">
+            <i class="fa-solid fa-diagram-project mr-1.5"></i> <span data-en="Systems Thinking" data-ms="Pemikiran Sistem">Systems Thinking</span>
+          </button>
+          <button onclick="switchTab('page5')" id="tab-page5" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition duration-200 text-emerald-300 hover:text-white">
+            <i class="fa-solid fa-gamepad mr-1.5"></i> <span data-en="Formative Test (Game)" data-ms="Ujian Formatif (Permainan)">Formative Test (Game)</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+    
+    <!-- PAGE 1: HOME & INTRO -->
+    <section id="page1" class="tab-content block space-y-8">
+      
+      <!-- Hero Header -->
+      <div class="bg-gradient-to-r from-emerald-800 via-emerald-900 to-teal-950 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-2xl"></div>
+        <div class="absolute -left-16 -top-16 w-64 h-64 bg-teal-500/10 rounded-full blur-2xl"></div>
+        
+        <div class="relative z-10 max-w-3xl">
+          <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3.5 py-1.5 rounded-full border border-emerald-500/30 tracking-widest uppercase">
+            Malaysian Syllabus • Biology Form 5
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-extrabold mt-4 leading-tight">
+            BioGenSC
+          </h2>
+          <p class="text-emerald-200 text-sm sm:text-lg font-medium mt-2">
+            Bioremediation with Generative AI in Sustainable Chemistry Application
+          </p>
+          <div class="flex items-center space-x-3 mt-6 text-sm text-slate-300">
+            <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center font-bold text-white">PR</div>
+            <div>
+              <p class="font-semibold text-white">Prakesh Ramamoorthy</p>
+              <p class="text-xs">Author & Biology Learning Specialist</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Objectives & Simple Definition -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Objectives -->
+        <div class="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-bullseye text-emerald-600"></i>
+              <span data-en="Learning Objectives" data-ms="Objektif Pembelajaran">Learning Objectives</span>
+            </h3>
+            <ul class="space-y-3.5 text-sm text-slate-600">
+              <li class="flex items-start gap-2.5">
+                <span class="bg-emerald-50 text-emerald-700 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">1</span>
+                <span data-en="Explain the meaning of bioremediation and identify key microbes involved." data-ms="Menerangkan maksud bioremediasi dan mengenali mikrob utama yang terlibat.">Explain the meaning of bioremediation and identify key microbes involved.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="bg-emerald-50 text-emerald-700 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">2</span>
+                <span data-en="Show how microorganisms break down pollutants to reduce environment damage." data-ms="Menunjukkan cara mikroorganisma menguraikan bahan pencemar untuk mengurangkan kerosakan alam sekitar.">Show how microorganisms break down pollutants to reduce environment damage.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="bg-emerald-50 text-emerald-700 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">3</span>
+                <span data-en="Relate biotechnology practices to sustainable environmental conservation in Malaysia." data-ms="Menghubungkaitkan amalan bioteknologi dengan pemuliharaan alam sekitar yang mampan di Malaysia.">Relate biotechnology practices to sustainable environmental conservation in Malaysia.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 p-4 bg-amber-50 rounded-xl border border-amber-100">
+            <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1 flex items-center gap-1">
+              <i class="fa-solid fa-info-circle"></i> Quick Fact
+            </h4>
+            <p class="text-xs text-amber-900" data-en="In Form 5, bioremediation bridges environmental sustainability and microbiology!" data-ms="Dalam Form 5, bioremediasi merapatkan kelestarian alam sekitar dengan mikrobiologi!">In Form 5, bioremediation bridges environmental sustainability and microbiology!</p>
+          </div>
+        </div>
+
+        <!-- Definition Box -->
+        <div class="lg:col-span-7 bg-emerald-50 rounded-2xl p-6 border border-emerald-100 flex flex-col justify-between">
+          <div>
+            <span class="bg-emerald-200/50 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+              Core Concept
+            </span>
+            <h3 class="text-2xl font-extrabold text-emerald-950 mt-3" data-en="What is Bioremediation?" data-ms="Apakah itu Bioremediasi?">
+              What is Bioremediation?
+            </h3>
+            <p class="text-emerald-900 text-base leading-relaxed mt-4 italic font-medium">
+              “Bioremediation is the process of using microorganisms such as bacteria or yeast to break down harmful pollutants in the environment.”
+            </p>
+            <p class="text-emerald-800 text-sm leading-relaxed mt-2 italic font-medium">
+              “Bioremediasi ialah proses menggunakan mikroorganisma seperti bakteria atau yis untuk menguraikan bahan pencemar berbahaya di dalam persekitaran.”
+            </p>
+          </div>
+          
+          <div class="mt-6 grid grid-cols-3 gap-3">
+            <div class="bg-white p-3 rounded-xl shadow-xs text-center border border-emerald-100/50">
+              <span class="block text-xl">🦠</span>
+              <span class="text-xs font-semibold text-slate-700" data-en="Microorganisms" data-ms="Mikroorganisma">Microorganisms</span>
+            </div>
+            <div class="bg-white p-3 rounded-xl shadow-xs text-center border border-emerald-100/50">
+              <span class="block text-xl">✂️</span>
+              <span class="text-xs font-semibold text-slate-700" data-en="Biodegradation" data-ms="Biodegradasi">Biodegradation</span>
+            </div>
+            <div class="bg-white p-3 rounded-xl shadow-xs text-center border border-emerald-100/50">
+              <span class="block text-xl">🌱</span>
+              <span class="text-xs font-semibold text-slate-700" data-en="Eco-Restoration" data-ms="Pemulihan Ekologi">Eco-Restoration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spilled Game Mini-Simulation -->
+      <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl overflow-hidden relative border border-slate-800">
+        <div class="flex flex-col md:flex-row items-center justify-between mb-4 pb-4 border-b border-slate-800">
+          <div>
+            <h3 class="text-xl font-bold flex items-center gap-2">
+              <span class="text-2xl">🕹️</span>
+              <span data-en="Interactive Game: The Spilled Microbe-Shield" data-ms="Permainan Interaktif: Perisai Mikrob">Interactive Game: The Spilled Microbe-Shield</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1" data-en="Tap / click to release oil-eating bacteria (Pseudomonas) to break down oil slicks!" data-ms="Ketik / klik untuk melepaskan bakteria pemakan minyak (Pseudomonas) bagi menguraikan tumpahan minyak!">Tap / click to release oil-eating bacteria (Pseudomonas) to break down oil slicks!</p>
+          </div>
+          <div class="flex items-center gap-4 mt-4 md:mt-0">
+            <div class="bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-center">
+              <span class="text-[10px] text-slate-400 block uppercase" data-en="Score" data-ms="Skor">Score</span>
+              <span id="gameScore" class="text-lg font-bold text-emerald-400">0</span>
+            </div>
+            <div class="bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-center">
+              <span class="text-[10px] text-slate-400 block uppercase" data-en="Time Left" data-ms="Masa">Time Left</span>
+              <span id="gameTimer" class="text-lg font-bold text-amber-400">30s</span>
+            </div>
+            <button onclick="startGame()" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-4 py-2 rounded-lg text-sm transition">
+              <i class="fa-solid fa-play mr-1"></i> <span data-en="Start Game" data-ms="Mula">Start Game</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="relative w-full h-80 bg-slate-950 rounded-2xl overflow-hidden cursor-crosshair border border-slate-800 flex items-center justify-center">
+          <canvas id="spillGameCanvas" class="absolute inset-0 w-full h-full"></canvas>
+          <div id="gameOverlay" class="absolute inset-0 bg-slate-950/80 flex flex-col items-center justify-center text-center p-6 transition">
+            <div class="bg-emerald-950/50 p-4 rounded-full border border-emerald-500/30 mb-3 animate-pulse">
+              <i class="fa-solid fa-shield-virus text-4xl text-emerald-400"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white" data-en="Ready to fight pollution?" data-ms="Sedia melawan pencemaran?">Ready to fight pollution?</h4>
+            <p class="text-xs text-slate-400 max-w-md mt-1" data-en="Click inside the zone to deploy Pseudomonas aeruginosa. Click the glowing green dots as they appear to neutralize the oil layers!" data-ms="Klik di dalam zon untuk menyebarkan Pseudomonas aeruginosa. Sentuh tumpahan minyak yang terapung untuk mengurangkannya!">Click inside the zone to deploy Pseudomonas aeruginosa. Click the glowing green dots as they appear to neutralize the oil layers!</p>
+            <button onclick="startGame()" class="mt-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl transition">
+              <span data-en="Deploy Bacteria" data-ms="Sebar Bakteria">Deploy Bacteria</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Three Subscales of Bioremediation Interactive Infographic -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
+        <div class="text-center max-w-2xl mx-auto mb-8">
+          <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest" data-en="Detailed Taxonomy" data-ms="Taksonomi Terperinci">Detailed Taxonomy</span>
+          <h3 class="text-2xl font-extrabold text-slate-900 mt-2" data-en="Three Subscales of Bioremediation" data-ms="Tiga Subskala Bioremediasi">Three Subscales of Bioremediation</h3>
+          <p class="text-slate-500 text-sm mt-1" data-en="Hover/tap on each card to see animated microbial interactions and bilingual annotations." data-ms="Tuding/ketik pada setiap kad untuk melihat interaksi mikrob dan anotasi dwibahasa.">Hover/tap on each card to see animated microbial interactions and bilingual annotations.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Subscale 1 -->
+          <div class="group relative bg-slate-50 hover:bg-emerald-50/50 rounded-2xl p-6 border border-slate-100 hover:border-emerald-200 transition-all duration-300 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition duration-300">
+                1
+              </div>
+              <h4 class="text-base font-bold text-slate-900" data-en="Subscale 1: Microbial Process" data-ms="Subskala 1: Proses Mikrob">Subscale 1: Microbial Process</h4>
+              <p class="text-xs text-indigo-600 font-semibold mt-1" data-en="Decomposers in Ecosystem" data-ms="Pengurai dalam Ekosistem">Decomposers in Ecosystem</p>
+              <p class="text-xs text-slate-500 mt-3" data-en="Bacteria (Pseudomonas) break complex hydrocarbon structures into harmless products through respiration pathways." data-ms="Bakteria (Pseudomonas) memecahkan struktur hidrokarbon kompleks kepada bahan tidak berbahaya melalui respirasi sel.">Bacteria (Pseudomonas) break complex hydrocarbon structures into harmless products through respiration pathways.</p>
+            </div>
+            
+            <div class="mt-6 border-t border-slate-100 pt-4 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-slate-400 group-hover:text-emerald-600 transition" data-en="Hover for Equation" data-ms="Lihat Persamaan">Hover for Equation</span>
+              <div class="opacity-0 group-hover:opacity-100 transition duration-300 text-right">
+                <span class="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-mono">C₈H₁₈ → CO₂ + H₂O</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subscale 2 -->
+          <div class="group relative bg-slate-50 hover:bg-emerald-50/50 rounded-2xl p-6 border border-slate-100 hover:border-emerald-200 transition-all duration-300 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition duration-300">
+                2
+              </div>
+              <h4 class="text-base font-bold text-slate-900" data-en="Subscale 2: Environmental Interaction" data-ms="Subskala 2: Interaksi Persekitaran">Subscale 2: Environmental Interaction</h4>
+              <p class="text-xs text-emerald-600 font-semibold mt-1" data-en="Phytoremediation Pathways" data-ms="Laluan Fitoremediasi">Phytoremediation Pathways</p>
+              <p class="text-xs text-slate-500 mt-3" data-en="Plants absorb heavy metals or chemical runoff from soil/water, purifying the environment using roots." data-ms="Tumbuhan menyerap logam berat atau limpahan sisa kimia daripada tanah/air, membersihkan alam sekitar menggunakan akar.">Plants absorb heavy metals or chemical runoff from soil/water, purifying the environment using roots.</p>
+            </div>
+            
+            <div class="mt-6 border-t border-slate-100 pt-4 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-slate-400 group-hover:text-emerald-600 transition" data-en="Hover for Agent" data-ms="Lihat Agen">Hover for Agent</span>
+              <div class="opacity-0 group-hover:opacity-100 transition duration-300 text-right">
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-1 rounded font-semibold" data-en="Water Hyacinth" data-ms="Keladi Bunting">Water Hyacinth</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subscale 3 -->
+          <div class="group relative bg-slate-50 hover:bg-emerald-50/50 rounded-2xl p-6 border border-slate-100 hover:border-emerald-200 transition-all duration-300 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition duration-300">
+                3
+              </div>
+              <h4 class="text-base font-bold text-slate-900" data-en="Subscale 3: Chemical Degradation" data-ms="Subskala 3: Degradasi Kimia">Subscale 3: Chemical Degradation</h4>
+              <p class="text-xs text-amber-600 font-semibold mt-1" data-en="Enzymatic Catabolism" data-ms="Katabolisme Enzimatik">Enzymatic Catabolism</p>
+              <p class="text-xs text-slate-500 mt-3" data-en="Intracellular enzymes target toxic rings, breaking down stable chemical pollutants step-by-step." data-ms="Enzim intrasel menyasarkan gelung toksik, memecahkan sisa pencemar kimia yang stabil langkah demi langkah.">Intracellular enzymes target toxic rings, breaking down stable chemical pollutants step-by-step.</p>
+            </div>
+            
+            <div class="mt-6 border-t border-slate-100 pt-4 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-slate-400 group-hover:text-emerald-600 transition" data-en="Hover for Key" data-ms="Lihat Kunci">Hover for Key</span>
+              <div class="opacity-0 group-hover:opacity-100 transition duration-300 text-right">
+                <span class="text-[10px] bg-amber-100 text-amber-700 px-2 py-1 rounded font-semibold" data-en="Enzyme Action" data-ms="Tindakan Enzim">Enzyme Action</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Real-world Case Studies / Image Sections -->
+      <div class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-xl font-bold text-slate-900" data-en="Malaysian & International Case Studies" data-ms="Kajian Kes Malaysia & Antarabangsa">Malaysian & International Case Studies</h3>
+          <p class="text-xs text-slate-500 mt-0.5" data-en="Real examples illustrating where bioremediation and sustainable chemistry are applied." data-ms="Contoh sebenar yang menggambarkan di mana bioremediasi dan kimia mampan digunakan.">Real examples illustrating where bioremediation and sustainable chemistry are applied.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Column 1: Malaysian Examples with real high-fidelity photography -->
+          <div class="lg:col-span-4 bg-white rounded-2xl p-5 border border-slate-100 shadow-xs flex flex-col justify-between">
+            <div>
+              <h4 class="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="text-lg">🇲🇾</span>
+                <span data-en="A. Malaysian Examples" data-ms="A. Contoh di Malaysia">A. Malaysian Examples</span>
+              </h4>
+              <div class="space-y-4 text-xs text-slate-600">
+                
+                <!-- Spillage Image & Content (Selat Melaka Polluted with Oil Spill) -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col gap-2.5">
+                  <div class="relative w-full h-32 rounded-lg overflow-hidden bg-slate-200">
+                    <img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?auto=format&fit=crop&w=400&h=250&q=80" alt="Selat Melaka Oil Spill Pollution" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x250/115e59/ffffff?text=Selat+Melaka+Oil+Spill'">
+                    <span class="absolute bottom-1.5 right-1.5 bg-emerald-950/80 text-white text-[9px] px-2 py-0.5 rounded-full">Selat Melaka</span>
+                  </div>
+                  <div>
+                    <strong class="text-emerald-800 block mb-0.5" data-en="Coastal & River Spillages" data-ms="Tumpahan Sungai & Pantai">Coastal & River Spillages</strong>
+                    <span data-en="Incidents near Selat Melaka (Straits of Malacca) demand biological solutions due to delicate coral arrays." data-ms="Insiden berhampiran Selat Melaka memerlukan penyelesaian biologi kerana kawasan batu karang yang sensitif.">Incidents near Selat Melaka (Straits of Malacca) demand biological solutions due to delicate coral arrays.</span>
+                  </div>
+                </div>
+                
+                <!-- Mangrove Conservation Image & Content (Mangrove Swamp in Malaysia) -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col gap-2.5">
+                  <div class="relative w-full h-32 rounded-lg overflow-hidden bg-slate-200">
+                    <img src="https://images.unsplash.com/photo-1601999109332-542b18dbec57?auto=format&fit=crop&w=400&h=250&q=80" alt="Mangrove Swamp in Malaysia" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x250/115e59/ffffff?text=Mangrove+Swamp+Malaysia'">
+                    <span class="absolute bottom-1.5 right-1.5 bg-emerald-950/80 text-white text-[9px] px-2 py-0.5 rounded-full">Eco-Recovery</span>
+                  </div>
+                  <div>
+                    <strong class="text-emerald-800 block mb-0.5" data-en="Mangrove Ecosystems" data-ms="Ekosistem Paya Bakau">Mangrove Ecosystems</strong>
+                    <span data-en="Phytoremediation and biological plant filtration used to protect mangrove roots and extract soil toxins." data-ms="Fitoremediasi dan penapisan tumbuhan biologi digunakan untuk melindungi akar bakau serta menyerap toksin tanah.">Phytoremediation and biological plant filtration used to protect mangrove roots and extract soil toxins.</span>
+                  </div>
+                </div>
+                
+                <!-- River Cleanup Image & Content (Malaysian Students Beach Cleaning Campaign) -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col gap-2.5">
+                  <div class="relative w-full h-32 rounded-lg overflow-hidden bg-slate-200">
+                    <img src="https://images.unsplash.com/photo-1616628188502-413f2fe46e5e?auto=format&fit=crop&w=400&h=250&q=80" alt="Malaysian Students Cleaning Beach" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x250/115e59/ffffff?text=Malaysian+Beach+Cleanup'">
+                    <span class="absolute bottom-1.5 right-1.5 bg-emerald-950/80 text-white text-[9px] px-2 py-0.5 rounded-full">Beach Cleanup</span>
+                  </div>
+                  <div>
+                    <strong class="text-emerald-800 block mb-0.5" data-en="Local Cleaning Campaigns" data-ms="Kempen Pembersihan Tempatan">Local Cleaning Campaigns</strong>
+                    <span data-en="Volunteer and university student research teams collaborating at the seaside to clean up persistent coastal oil spills." data-ms="Sukarelawan dan kumpulan penyelidik pelajar universiti bekerjasama di tepi pantai untuk membersihkan tumpahan minyak pantai.">Volunteer and university student research teams collaborating at the seaside to clean up persistent coastal oil spills.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: International Examples -->
+          <div class="lg:col-span-4 bg-white rounded-2xl p-5 border border-slate-100 shadow-xs flex flex-col justify-between">
+            <div>
+              <h4 class="text-sm font-bold text-slate-900 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="text-lg">🌍</span>
+                <span data-en="B. International Examples" data-ms="B. Contoh Antarabangsa">B. International Examples</span>
+              </h4>
+              <ul class="space-y-4 text-xs text-slate-600">
+                <li class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                  <strong class="text-indigo-800 block mb-1" data-en="Deepwater Horizon Cleanup" data-ms="Pembersihan Deepwater Horizon">Deepwater Horizon Cleanup</strong>
+                  <span data-en="The largest ocean oil spill deployment where Alcanivorax borkumensis was utilized for deep-sea hydrocarbon breakdown." data-ms="Penyebaran tumpahan minyak laut terbesar di mana Alcanivorax borkumensis digunakan untuk penguraian hidrokarbon.">The largest ocean oil spill deployment where Alcanivorax borkumensis was utilized for deep-sea hydrocarbon breakdown.</span>
+                </li>
+                <li class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                  <strong class="text-indigo-800 block mb-1" data-en="Genetically Modified Microbes" data-ms="Mikrob Kejuruteraan Genetik">Genetically Modified Microbes</strong>
+                  <span data-en="Scientists globally engineering species of Pseudomonas to process plastic polymers alongside oil." data-ms="Saintis di seluruh dunia merawat genetik spesies Pseudomonas untuk menguraikan polimer plastik bersama minyak.">Scientists globally engineering species of Pseudomonas to process plastic polymers alongside oil.</span>
+                </li>
+                <li class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                  <strong class="text-indigo-800 block mb-1" data-en="Large-scale Marine Restoration" data-ms="Restorasi Marin Skala Besar">Large-scale Marine Restoration</strong>
+                  <span data-en="Industrial bio-barriers implemented off coastlines using active microbial cultures to trap petroleum." data-ms="Penghadang biologi industri dibina di pesisir pantai menggunakan kultur mikrob aktif untuk memerangkap petroleum.">Industrial bio-barriers implemented off coastlines using active microbial cultures to trap petroleum.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Column 3: Graph and Statistics (Dynamic SVG) -->
+          <div class="lg:col-span-4 bg-white rounded-2xl p-5 border border-slate-100 shadow-xs flex flex-col justify-between">
+            <div>
+              <h4 class="text-sm font-bold text-slate-900 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="text-lg">📊</span>
+                <span data-en="C. Oil Spills in Malaysia (2020-2025)" data-ms="C. Tumpahan Minyak di Malaysia">C. Oil Spills in Malaysia (2020-2025)</span>
+              </h4>
+              <p class="text-[10px] text-slate-400 mb-3" data-en="Recorded incidents in maritime territory of Malaysia" data-ms="Insiden yang direkodkan dalam perairan wilayah Malaysia">Recorded incidents in maritime territory of Malaysia</p>
+              
+              <!-- SVG Graph -->
+              <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                <svg viewBox="0 0 300 160" class="w-full h-auto">
+                  <!-- Gridlines -->
+                  <line x1="30" y1="20" x2="280" y2="20" stroke="#334155" stroke-dasharray="2,2"/>
+                  <line x1="30" y1="60" x2="280" y2="60" stroke="#334155" stroke-dasharray="2,2"/>
+                  <line x1="30" y1="100" x2="280" y2="100" stroke="#334155" stroke-dasharray="2,2"/>
+                  <line x1="30" y1="130" x2="280" y2="130" stroke="#475569" />
+                  
+                  <!-- Y-Axis Label -->
+                  <text x="10" y="25" fill="#94a3b8" font-size="8">80</text>
+                  <text x="10" y="65" fill="#94a3b8" font-size="8">40</text>
+                  <text x="10" y="105" fill="#94a3b8" font-size="8">20</text>
+                  <text x="10" y="135" fill="#94a3b8" font-size="8">0</text>
+                  
+                  <!-- Data Line & Area -->
+                  <path d="M 40,26 L 85,38 L 130,55 L 175,70 L 220,95 L 265,115" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M 40,26 L 85,38 L 130,55 L 175,70 L 220,95 L 265,115 L 265,130 L 40,130 Z" fill="url(#grad)" opacity="0.15"/>
+                  
+                  <!-- Dots -->
+                  <circle cx="40" cy="26" r="4" fill="#10b981"/>
+                  <circle cx="85" cy="38" r="4" fill="#10b981"/>
+                  <circle cx="130" cy="55" r="4" fill="#10b981"/>
+                  <circle cx="175" cy="70" r="4" fill="#10b981"/>
+                  <circle cx="220" cy="95" r="4" fill="#10b981"/>
+                  <circle cx="265" cy="115" r="4" fill="#10b981"/>
+                  
+                  <!-- Tooltips/values -->
+                  <text x="35" y="16" fill="#10b981" font-size="8" font-weight="bold">74</text>
+                  <text x="125" y="47" fill="#10b981" font-size="8" font-weight="bold">45</text>
+                  <text x="260" y="107" fill="#10b981" font-size="8" font-weight="bold">12</text>
+
+                  <!-- X-Axis Labels -->
+                  <text x="30" y="145" fill="#94a3b8" font-size="8">2020</text>
+                  <text x="75" y="145" fill="#94a3b8" font-size="8">2021</text>
+                  <text x="120" y="145" fill="#94a3b8" font-size="8">2022</text>
+                  <text x="165" y="145" fill="#94a3b8" font-size="8">2023</text>
+                  <text x="210" y="145" fill="#94a3b8" font-size="8">2024</text>
+                  <text x="255" y="145" fill="#94a3b8" font-size="8">2025</text>
+
+                  <defs>
+                    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#10b981" />
+                      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <p class="text-[10px] text-slate-500 leading-relaxed" data-en="With stronger marine bioremediation policies, spill impacts dropped. Let's study how we can protect the local economy." data-ms="Dengan dasar bioremediasi marin yang lebih kukuh, impak tumpahan telah menurun drastic. Mari kaji bagaimana ia membantu ekonomi.">With stronger marine bioremediation policies, spill impacts dropped. Let's study how we can protect the local economy.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Severe Ecological & Economic Threats in Malaysia -->
+      <div class="bg-red-50/50 border border-red-100 rounded-3xl p-6 sm:p-8 space-y-6">
+        <div>
+          <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            Risk Assessment
+          </span>
+          <h3 class="text-xl font-extrabold text-red-950 mt-3" data-en="Why Bioremediation Matters: The Bad Impacts of Oil Pollution" data-ms="Kenapa Bioremediasi Penting: Impak Buruk Tumpahan Minyak">
+            Why Bioremediation Matters: The Bad Impacts of Oil Pollution
+          </h3>
+          <p class="text-xs text-red-800 mt-1" data-en="Traditional physical cleanups are costly. Here are the devastating ecological and economic threats." data-ms="Pembersihan fizikal tradisional adalah mahal. Berikut adalah ancaman ekologi dan ekonomi yang dahsyat.">Traditional physical cleanups are costly. Here are the devastating ecological and economic threats.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Ecological Threats -->
+          <div class="bg-white p-5 rounded-2xl border border-red-100 shadow-xs space-y-4">
+            <h4 class="text-sm font-bold text-red-900 border-b border-red-50 pb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-shrimp"></i>
+              <span data-en="A) Ecological Damage to Malaysia's Coast" data-ms="A) Kerosakan Ekologi Pantai Malaysia">A) Ecological Damage to Malaysia's Coast</span>
+            </h4>
+            
+            <div class="space-y-3 text-xs text-slate-600">
+              <div>
+                <strong class="text-red-900" data-en="1. Damage to Marine Ecosystems:" data-ms="1. Kerosakan Ekosistem Marin:">1. Damage to Marine Ecosystems:</strong>
+                <p data-en="Oil forms a layer blocking sunlight, shutting down photosynthesis in phytoplankton, corals, and seagrass beds." data-ms="Minyak menghalang cahaya matahari, mematikan fotosintesis fitoplankton, terumbu karang, dan rumput laut.">Oil forms a layer blocking sunlight, shutting down photosynthesis in phytoplankton, corals, and seagrass beds.</p>
+              </div>
+              <div>
+                <strong class="text-red-900" data-en="2. Harm to Marine Wildlife:" data-ms="2. Kemudaratan Hidupan Liar Marin:">2. Harm to Marine Wildlife:</strong>
+                <p data-en="Direct toxic ingestion, abnormal larval development in crabs, and gill blockages in valuable commercial fishes." data-ms="Penelanan toksik langsung, keabnormalan larva ketam, dan penyumbatan insang ikan komersial berharga.">Direct toxic ingestion, abnormal larval development in crabs, and gill blockages in valuable commercial fishes.</p>
+              </div>
+              <div>
+                <strong class="text-red-900" data-en="3. Biodiversity Loss & Mangroves:" data-ms="3. Kehilangan Biodiversiti & Bakau:">3. Biodiversity Loss & Mangroves:</strong>
+                <p data-en="Oil trapped in mangrove pneumatophores suffocates the trees. Full ecological recovery can take over 15 years." data-ms="Minyak terperangkap di pneumatofor bakau melemaskan pokok. Pemulihan penuh boleh mengambil masa lebih 15 tahun.">Oil trapped in mangrove pneumatophores suffocates the trees. Full ecological recovery can take over 15 years.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Economic Threats -->
+          <div class="bg-white p-5 rounded-2xl border border-red-100 shadow-xs space-y-4">
+            <h4 class="text-sm font-bold text-red-900 border-b border-red-50 pb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-coins"></i>
+              <span data-en="B) Socio-Economic Destruction" data-ms="B) Kemusnahan Sosio-Ekonomi">B) Socio-Economic Destruction</span>
+            </h4>
+            
+            <div class="space-y-3 text-xs text-slate-600">
+              <div>
+                <strong class="text-red-900" data-en="1. Fisheries and Aquaculture Losses:" data-ms="1. Kerugian Perikanan & Akuakultur:">1. Fisheries and Aquaculture Losses:</strong>
+                <p data-en="Destroys fish stocks in Terengganu, Johor, and Sabah. Fishing bans severely cripple the income of B40 fishermen." data-ms="Memusnahkan stok ikan di Terengganu, Johor, dan Sabah. Larangan menangkap ikan menjejaskan pendapatan nelayan B40.">Destroys fish stocks in Terengganu, Johor, and Sabah. Fishing bans severely cripple the income of B40 fishermen.</p>
+              </div>
+              <div>
+                <strong class="text-red-900" data-en="2. Tourism Decline:" data-ms="2. Kemerosotan Sektor Pelancongan:">2. Tourism Decline:</strong>
+                <p data-en="Blackened coastlines force closure of resorts on Tioman, Perhentian, and Sipadan Island marine parks." data-ms="Pantai yang tercemar dengan minyak memaksa penutupan resort di taman laut Pulau Tioman, Perhentian, dan Sipadan.">Blackened coastlines force closure of resorts on Tioman, Perhentian, and Sipadan Island marine parks.</p>
+              </div>
+              <div>
+                <strong class="text-red-900" data-en="3. Escalating Cleanup Costs & Port Delays:" data-ms="3. Kos Pembersihan Meningkat & Kelewatan Pelabuhan:">3. Escalating Cleanup Costs & Port Delays:</strong>
+                <p data-en="Chemical dispersants cost millions. Blocked shipping lanes disrupt Malaccan and Klang port operations." data-ms="Bahan penyebar kimia berharga jutaan ringgit. Laluan perkapalan terhalang menjejaskan Pelabuhan Klang dan Melaka.">Chemical dispersants cost millions. Blocked shipping lanes disrupt Malaccan and Klang port operations.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Interactive Check (Page 1 Mini Quizzes) -->
+      <div class="bg-slate-100 rounded-3xl p-6 sm:p-8 border border-slate-200">
+        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-clipboard-question text-emerald-600"></i>
+          <span data-en="Quick Check: Micro-Quizzes" data-ms="Semakan Pantas: Kuiz Mikro">Quick Check: Micro-Quizzes</span>
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Mini Quiz 1 -->
+          <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200/60">
+            <h4 class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-1">Quiz 1</h4>
+            <p class="text-sm font-semibold text-slate-900 mb-3" data-en="Which organism is commonly used in biological bioremediation?" data-ms="Apakah organisma yang biasa digunakan dalam bioremediasi biologi?">Which organism is commonly used in biological bioremediation?</p>
+            <div class="space-y-2">
+              <button onclick="checkMiniQuiz(1, 'a', this)" class="w-full text-left text-xs p-2.5 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between">
+                <span>a) Yeast / Yis</span>
+                <i class="fa-solid fa-circle text-slate-200 text-[10px]"></i>
+              </button>
+              <button onclick="checkMiniQuiz(1, 'b', this)" class="w-full text-left text-xs p-2.5 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between">
+                <span>b) Plastic / Plastik</span>
+                <i class="fa-solid fa-circle text-slate-200 text-[10px]"></i>
+              </button>
+              <button onclick="checkMiniQuiz(1, 'c', this)" class="w-full text-left text-xs p-2.5 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between">
+                <span>c) Metal / Logam</span>
+                <i class="fa-solid fa-circle text-slate-200 text-[10px]"></i>
+              </button>
+            </div>
+            <p id="quiz1-feedback" class="text-xs font-semibold mt-3 hidden"></p>
+          </div>
+
+          <!-- Mini Quiz 2 -->
+          <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200/60">
+            <h4 class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-1">Quiz 2</h4>
+            <p class="text-sm font-semibold text-slate-900 mb-3" data-en="How does an oil spill directly impact fishermen's livelihood?" data-ms="Bagaimanakah tumpahan minyak memberi kesan langsung kepada mata pencarian nelayan?">How does an oil spill directly impact fishermen's livelihood?</p>
+            <div class="space-y-2">
+              <button onclick="checkMiniQuiz(2, 'a', this)" class="w-full text-left text-xs p-2.5 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between">
+                <span>a) Loss of income / Kehilangan pendapatan</span>
+                <i class="fa-solid fa-circle text-slate-200 text-[10px]"></i>
+              </button>
+              <button onclick="checkMiniQuiz(2, 'b', this)" class="w-full text-left text-xs p-2.5 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between">
+                <span>b) Delay cargo transport / Kelewatan kargo</span>
+                <i class="fa-solid fa-circle text-slate-200 text-[10px]"></i>
+              </button>
+              <button onclick="checkMiniQuiz(2, 'c', this)" class="w-full text-left text-xs p-2.5 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between">
+                <span>c) Food safety expoited / Keselamatan makanan terjejas</span>
+                <i class="fa-solid fa-circle text-slate-200 text-[10px]"></i>
+              </button>
+            </div>
+            <p id="quiz2-feedback" class="text-xs font-semibold mt-3 hidden"></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Transition Panel -->
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
+        <div>
+          <h4 class="text-lg font-bold" data-en="Ready to test this in the school laboratory?" data-ms="Sedia untuk menguji ini dalam makmal sekolah?">Ready to test this in the school laboratory?</h4>
+          <p class="text-xs text-emerald-100 mt-1" data-en="Switch over to our immersive Virtual Experiment simulator and see biochemical bioremediation live!" data-ms="Beralih ke simulator Eksperimen Maya yang mengasyikkan untuk melihat bioremediasi biokimia secara langsung!">Switch over to our immersive Virtual Experiment simulator and see biochemical bioremediation live!</p>
+        </div>
+        <button onclick="switchTab('page2')" class="bg-white hover:bg-emerald-50 text-emerald-950 font-extrabold px-6 py-3 rounded-xl transition shadow-sm shrink-0 flex items-center gap-2">
+          <span data-en="Start Virtual Experiment" data-ms="Mulakan Eksperimen Maya">Start Virtual Experiment</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- PAGE 2: VIRTUAL EXPERIMENT -->
+    <section id="page2" class="tab-content hidden space-y-8">
+      
+      <!-- Scientific Framework Header -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          Practical Biology Framework
+        </span>
+        <h3 class="text-2xl font-extrabold text-slate-950 mt-3" data-en="Laboratory Bio-Experiment Setup" data-ms="Penyediaan Eksperimen Biologi Makmal">
+          Laboratory Bio-Experiment Setup
+        </h3>
+        <p class="text-xs text-slate-500 mt-1" data-en="Investigating how yeast and sugar digest cooking oil layers in water containers." data-ms="Mengkaji bagaimana yis dan gula menguraikan lapisan minyak masak di dalam bekas air.">Investigating how yeast and sugar digest cooking oil layers in water containers.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <span class="text-xs text-emerald-700 font-bold uppercase tracking-wider block mb-1">Problem Statement</span>
+            <p class="text-xs text-slate-700 font-medium leading-relaxed" data-en="Can microorganisms (yeast) help reduce oil pollution in water?" data-ms="Bolehkah mikroorganisma (yis) membantu mengurangkan pencemaran minyak di dalam air?">Can microorganisms (yeast) help reduce oil pollution in water?</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <span class="text-xs text-emerald-700 font-bold uppercase tracking-wider block mb-1">Hypothesis</span>
+            <p class="text-xs text-slate-700 font-medium leading-relaxed" data-en="If active microorganisms are added to oil-contaminated water, then the thickness of the oil layer will decrease over time." data-ms="Jika mikroorganisma aktif ditambahkan ke dalam air tercemar minyak, maka ketebalan lapisan minyak akan berkurang mengikut masa.">If active microorganisms are added to oil-contaminated water, then the thickness of the oil layer will decrease over time.</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <span class="text-xs text-emerald-700 font-bold uppercase tracking-wider block mb-1">Variables Checklist</span>
+            <div class="text-[11px] text-slate-600 space-y-1 mt-1">
+              <p><strong>Manipulated:</strong> Presence of active yeast</p>
+              <p><strong>Responding:</strong> Thickness of oil / clarity / color change</p>
+              <p><strong>Controlled:</strong> Water vol (200mL), oil (10mL), temperature, time</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Materials, Safety & Interactive Simulator -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Draggable Materials Shelf -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-xs">
+            <h4 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-list-check text-emerald-600"></i>
+              <span data-en="Interactive Materials Shelf" data-ms="Rak Bahan Interaktif">Interactive Materials Shelf</span>
+            </h4>
+            <p class="text-[10px] text-slate-400 mb-4" data-en="Drag materials into Container A, B, & C. (Or tap a material, then tap the target container!)" data-ms="Seret bahan ke dalam Bekas A, B, & C. (Atau ketik bahan, kemudian ketik bekas sasaran!)">Drag materials into Container A, B, & C. (Or tap a material, then tap the target container!)</p>
+            
+            <!-- Draggable elements list with dual touch selection support -->
+            <div class="grid grid-cols-2 gap-3" id="materialsShelf">
+              <div id="drag-water" draggable="true" ondragstart="handleDragStart(event, 'water')" onclick="handleTapMaterial('water', this)" class="material-card bg-sky-50 hover:bg-sky-100 border border-sky-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-grab active:cursor-grabbing transition text-center select-none">
+                <span class="text-2xl mb-1">💧</span>
+                <span class="font-bold text-sky-950 text-xs">Water (200mL)</span>
+              </div>
+              <div id="drag-oil" draggable="true" ondragstart="handleDragStart(event, 'oil')" onclick="handleTapMaterial('oil', this)" class="material-card bg-amber-50 hover:bg-amber-100 border border-amber-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-grab active:cursor-grabbing transition text-center select-none">
+                <span class="text-2xl mb-1">🌻</span>
+                <span class="font-bold text-amber-950 text-xs">Cooking Oil</span>
+              </div>
+              <div id="drag-yeast" draggable="true" ondragstart="handleDragStart(event, 'yeast')" onclick="handleTapMaterial('yeast', this)" class="material-card bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-grab active:cursor-grabbing transition text-center select-none">
+                <span class="text-2xl mb-1">🧬</span>
+                <span class="font-bold text-emerald-950 text-xs">Active Yeast</span>
+              </div>
+              <div id="drag-sugar" draggable="true" ondragstart="handleDragStart(event, 'sugar')" onclick="handleTapMaterial('sugar', this)" class="material-card bg-pink-50 hover:bg-pink-100 border border-pink-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-grab active:cursor-grabbing transition text-center select-none">
+                <span class="text-2xl mb-1">🍬</span>
+                <span class="font-bold text-pink-950 text-xs">Refined Sugar</span>
+              </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-[10px] text-slate-500 space-y-1">
+              <p class="font-bold text-slate-700" data-en="Formula Instructions:" data-ms="Arahan Formula:">Formula Instructions:</p>
+              <p>• <strong>Container A (Control)</strong>: Water + Oil</p>
+              <p>• <strong>Container B (Yeast)</strong>: Water + Oil + Yeast</p>
+              <p>• <strong>Container C (Yeast & Sugar)</strong>: Water + Oil + Yeast + Sugar</p>
+            </div>
+          </div>
+
+          <div class="bg-amber-50 rounded-2xl p-5 border border-amber-100">
+            <h4 class="text-sm font-bold text-amber-900 mb-3 flex items-center gap-1.5">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span data-en="Safety Precautions" data-ms="Langkah Keselamatan">Safety Precautions</span>
+            </h4>
+            <ul class="space-y-2 text-xs text-amber-900 font-medium">
+              <li class="flex items-start gap-1.5">
+                <i class="fa-solid fa-ban mt-0.5"></i>
+                <span data-en="Do not ingest any biochemical materials." data-ms="Jangan makan atau minum sebarang bahan biokimia.">Do not ingest any biochemical materials.</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <i class="fa-solid fa-hands-bubbles mt-0.5"></i>
+                <span data-en="Wash hands thoroughly with soap after final reading." data-ms="Basuh tangan dengan sabun selepas bacaan terakhir.">Wash hands thoroughly with soap after final reading.</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <i class="fa-solid fa-square-envelope mt-0.5"></i>
+                <span data-en="Handle and wash lab glassware meticulously." data-ms="Kendalikan kaca makmal dengan teliti.">Handle and wash lab glassware meticulously.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Dropzones Beaker Console -->
+        <div class="lg:col-span-8 bg-slate-900 text-white rounded-2xl p-6 shadow-md border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+              <div>
+                <h4 class="text-base font-bold flex items-center gap-2">
+                  <i class="fa-solid fa-laptop-code text-emerald-400"></i>
+                  <span data-en="Virtual Lab Beaker Setup" data-ms="Penyediaan Bikar Makmal Maya">Virtual Lab Beaker Setup</span>
+                </h4>
+                <p class="text-xs text-slate-400" data-en="Drag-and-drop to prepare water layers and microbial cells." data-ms="Seret dan letak bahan untuk menyediakan lapisan air dan mikrob.">Drag-and-drop to prepare water layers and microbial cells.</p>
+              </div>
+              <div class="bg-slate-800 rounded-lg px-3 py-1 flex items-center gap-1.5 border border-slate-700">
+                <span class="text-xs text-slate-400" data-en="Current day:" data-ms="Hari:">Current day:</span>
+                <span id="experimentDayDisplay" class="text-sm font-bold text-emerald-400">1</span>
+              </div>
+            </div>
+
+            <!-- Beakers Dropzones interface -->
+            <div class="grid grid-cols-3 gap-4 my-6">
+              
+              <!-- Container A (Control) -->
+              <div id="dropzone-A" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'A')" onclick="handleBeakerClick('A')" class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 flex flex-col items-center hover:border-emerald-500/50 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] transition-all duration-300 cursor-pointer group">
+                <span class="text-xs font-bold text-slate-400 group-hover:text-emerald-400">Container A</span>
+                <span class="text-[10px] text-slate-500 mb-2" data-en="(Control Setup)" data-ms="(Kawalan)">(Control Setup)</span>
+                
+                <!-- Beaker Graphics -->
+                <div class="relative w-20 h-32 border-2 border-slate-400/60 rounded-b-2xl bg-slate-950 overflow-hidden mt-2 shadow-inner flex flex-col justify-end">
+                  <!-- Measurement Ticks -->
+                  <div class="absolute left-1 top-4 bottom-4 w-1.5 flex flex-col justify-between text-[6px] text-slate-600 font-mono z-40 select-none">
+                    <span>- 200ml</span>
+                    <span>- 150ml</span>
+                    <span>- 100ml</span>
+                    <span>- 50ml</span>
+                  </div>
+                  <!-- Oil layer (sits dynamically on top of water if water is added, otherwise bottom) -->
+                  <div id="beakerA-oil" class="absolute left-0 right-0 h-0 bg-gradient-to-r from-amber-400/70 to-amber-500/80 transition-all duration-500 border-b border-amber-600/40 z-20" style="bottom: 0px;"></div>
+                  <!-- Water layer -->
+                  <div id="beakerA-water" class="absolute left-0 right-0 bottom-0 h-0 bg-sky-400/30 transition-all duration-500 z-10 overflow-hidden">
+                    <!-- Yeast cloud / particles -->
+                    <div id="beakerA-yeast" class="absolute inset-0 bg-amber-800/20 opacity-0 transition-opacity duration-500 flex flex-wrap gap-1 justify-center p-2 content-center">
+                      <span class="w-1 h-1 bg-amber-600/70 rounded-full animate-pulse"></span>
+                      <span class="w-1.5 h-1.5 bg-amber-700/60 rounded-full"></span>
+                    </div>
+                  </div>
+                  <!-- Yeast powder at bottom if no water is present -->
+                  <div id="beakerA-yeast-dry" class="absolute left-0 right-0 bottom-0 h-0 bg-amber-700/40 transition-all duration-500 z-30"></div>
+                  <!-- Sugar Crystals -->
+                  <div id="beakerA-sugar" class="absolute left-0 right-0 bottom-0 h-0 bg-white/85 border-t border-white/50 transition-all duration-500 z-30"></div>
+                </div>
+                
+                <div class="mt-4 text-center min-h-[36px]">
+                  <span class="text-[10px] text-slate-400 block" data-en="Added:" data-ms="Ditambah:">Added:</span>
+                  <span id="beakerA-added-labels" class="text-[9px] font-semibold text-slate-300 block">-</span>
+                </div>
+              </div>
+
+              <!-- Container B (Yeast only) -->
+              <div id="dropzone-B" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'B')" onclick="handleBeakerClick('B')" class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 flex flex-col items-center hover:border-emerald-500/50 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] transition-all duration-300 cursor-pointer group">
+                <span class="text-xs font-bold text-slate-400 group-hover:text-emerald-400">Container B</span>
+                <span class="text-[10px] text-emerald-400 mb-2" data-en="(Yeast)" data-ms="(Yis)">(Yeast)</span>
+                
+                <!-- Beaker Graphics -->
+                <div class="relative w-20 h-32 border-2 border-slate-400/60 rounded-b-2xl bg-slate-950 overflow-hidden mt-2 shadow-inner flex flex-col justify-end">
+                  <!-- Measurement Ticks -->
+                  <div class="absolute left-1 top-4 bottom-4 w-1.5 flex flex-col justify-between text-[6px] text-slate-600 font-mono z-40 select-none">
+                    <span>- 200ml</span>
+                    <span>- 150ml</span>
+                    <span>- 100ml</span>
+                    <span>- 50ml</span>
+                  </div>
+                  <!-- Oil layer -->
+                  <div id="beakerB-oil" class="absolute left-0 right-0 h-0 bg-gradient-to-r from-amber-400/70 to-amber-500/80 transition-all duration-500 border-b border-amber-600/40 z-20" style="bottom: 0px;"></div>
+                  <!-- Water layer -->
+                  <div id="beakerB-water" class="absolute left-0 right-0 bottom-0 h-0 bg-sky-400/30 transition-all duration-500 z-10 overflow-hidden">
+                    <!-- Yeast cloud / particles -->
+                    <div id="beakerB-yeast" class="absolute inset-0 bg-amber-800/20 opacity-0 transition-opacity duration-500 flex flex-wrap gap-1 justify-center p-2 content-center">
+                      <span class="w-1 h-1 bg-amber-600/70 rounded-full animate-pulse"></span>
+                      <span class="w-1.5 h-1.5 bg-amber-700/60 rounded-full"></span>
+                      <span class="w-1 h-1 bg-amber-600/50 rounded-full animate-ping"></span>
+                    </div>
+                  </div>
+                  <!-- Yeast powder at bottom if no water is present -->
+                  <div id="beakerB-yeast-dry" class="absolute left-0 right-0 bottom-0 h-0 bg-amber-700/40 transition-all duration-500 z-30"></div>
+                  <!-- Sugar Crystals -->
+                  <div id="beakerB-sugar" class="absolute left-0 right-0 bottom-0 h-0 bg-white/85 border-t border-white/50 transition-all duration-500 z-30"></div>
+                </div>
+                
+                <div class="mt-4 text-center min-h-[36px]">
+                  <span class="text-[10px] text-slate-400 block" data-en="Added:" data-ms="Ditambah:">Added:</span>
+                  <span id="beakerB-added-labels" class="text-[9px] font-semibold text-slate-300 block">-</span>
+                </div>
+              </div>
+
+              <!-- Container C (Yeast + Sugar) -->
+              <div id="dropzone-C" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'C')" onclick="handleBeakerClick('C')" class="bg-slate-950/60 rounded-xl p-3 border border-slate-800 flex flex-col items-center hover:border-emerald-500/50 hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] transition-all duration-300 cursor-pointer group">
+                <span class="text-xs font-bold text-slate-400 group-hover:text-emerald-400">Container C</span>
+                <span class="text-[10px] text-emerald-400 mb-2" data-en="(Yeast + Sugar)" data-ms="(Yis + Gula)">(Yeast + Sugar)</span>
+                
+                <!-- Beaker Graphics -->
+                <div class="relative w-20 h-32 border-2 border-slate-400/60 rounded-b-2xl bg-slate-950 overflow-hidden mt-2 shadow-inner flex flex-col justify-end">
+                  <!-- Measurement Ticks -->
+                  <div class="absolute left-1 top-4 bottom-4 w-1.5 flex flex-col justify-between text-[6px] text-slate-600 font-mono z-40 select-none">
+                    <span>- 200ml</span>
+                    <span>- 150ml</span>
+                    <span>- 100ml</span>
+                    <span>- 50ml</span>
+                  </div>
+                  <!-- Oil layer -->
+                  <div id="beakerC-oil" class="absolute left-0 right-0 h-0 bg-gradient-to-r from-amber-400/70 to-amber-500/80 transition-all duration-500 border-b border-amber-600/40 z-20" style="bottom: 0px;"></div>
+                  <!-- Water layer -->
+                  <div id="beakerC-water" class="absolute left-0 right-0 bottom-0 h-0 bg-sky-400/30 transition-all duration-500 z-10 overflow-hidden">
+                    <!-- Yeast cloud / particles -->
+                    <div id="beakerC-yeast" class="absolute inset-0 bg-amber-800/20 opacity-0 transition-opacity duration-500 flex flex-wrap gap-1.5 justify-center p-2 content-center">
+                      <span class="w-1.5 h-1.5 bg-amber-600/70 rounded-full animate-pulse"></span>
+                      <span class="w-1 h-1 bg-amber-700/60 rounded-full animate-bounce"></span>
+                      <span class="w-1.5 h-1.5 bg-amber-600/50 rounded-full animate-ping"></span>
+                    </div>
+                  </div>
+                  <!-- Yeast powder at bottom if no water is present -->
+                  <div id="beakerC-yeast-dry" class="absolute left-0 right-0 bottom-0 h-0 bg-amber-700/40 transition-all duration-500 z-30"></div>
+                  <!-- Sugar Crystals -->
+                  <div id="beakerC-sugar" class="absolute left-0 right-0 bottom-0 h-0 bg-white/85 border-t border-white/50 transition-all duration-500 z-30 shadow-[0_-1px_3px_rgba(255,255,255,0.3)]"></div>
+                  <!-- Active Micro-bubbles (always starts off, turned on with sugar + yeast active) -->
+                  <div id="beakerC-bubbles" class="absolute inset-x-0 bottom-0 top-10 transition-all duration-500 flex flex-wrap gap-1 justify-center opacity-0 z-40 pointer-events-none">
+                    <span class="w-1 h-1 bg-emerald-400/60 rounded-full animate-bounce"></span>
+                    <span class="w-1.5 h-1.5 bg-white/50 rounded-full animate-ping"></span>
+                    <span class="w-1 h-1 bg-emerald-300/60 rounded-full animate-bounce"></span>
+                  </div>
+                </div>
+                
+                <div class="mt-4 text-center min-h-[36px]">
+                  <span class="text-[10px] text-slate-400 block" data-en="Added:" data-ms="Ditambah:">Added:</span>
+                  <span id="beakerC-added-labels" class="text-[9px] font-semibold text-slate-300 block">-</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Controls to cycle through days -->
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="w-full">
+              <!-- Instructive text alerts setup configuration status -->
+              <p id="beakerStatusText" class="text-xs text-amber-300 font-semibold italic">Instructions: Populate Containers with Water, Oil, Yeast, or Sugar from the shelf to begin.</p>
+            </div>
+            <div class="flex gap-2 shrink-0">
+              <button onclick="resetExperiment()" class="bg-slate-800 hover:bg-slate-700 text-xs font-bold px-3 py-2 rounded-lg transition border border-slate-700">
+                Reset
+              </button>
+              <button onclick="advanceExperimentDay()" class="bg-emerald-600 hover:bg-emerald-500 text-xs font-extrabold px-4 py-2 rounded-lg transition text-slate-950 flex items-center gap-1">
+                <span>Next Day</span>
+                <i class="fa-solid fa-forward"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-time Observation Data Logs -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 overflow-hidden">
+        <h4 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-1.5">
+          <i class="fa-solid fa-table"></i>
+          <span data-en="Observation Table & Logs" data-ms="Jadual Pemerhatian">Observation Table & Logs</span>
+        </h4>
+        
+        <div class="overflow-x-auto custom-scroll">
+          <table class="min-w-full divide-y divide-slate-200 text-xs text-left">
+            <thead class="bg-slate-50">
+            <tbody id="observationTableBody" class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-4 py-2 font-semibold text-emerald-800">Day 1</td>
+                <td class="px-4 py-2 text-slate-500">Layer thick, unchanged</td>
+                <td class="px-4 py-2 text-slate-500">Layer thick, yeast rests at bottom</td>
+                <td class="px-4 py-2 text-slate-500">Layer thick, yeast suspended</td>
+              </tr>
+              <tr class="opacity-40" id="row-day2">
+                <td class="px-4 py-2 font-semibold text-emerald-800">Day 2</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-a-2">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-b-2">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-c-2">-</td>
+              </tr>
+              <tr class="opacity-40" id="row-day3">
+                <td class="px-4 py-2 font-semibold text-emerald-800">Day 3</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-a-3">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-b-3">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-c-3">-</td>
+              </tr>
+              <tr class="opacity-40" id="row-day4">
+                <td class="px-4 py-2 font-semibold text-emerald-800">Day 4</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-a-4">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-b-4">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-c-4">-</td>
+              </tr>
+              <tr class="opacity-40" id="row-day5">
+                <td class="px-4 py-2 font-semibold text-emerald-800">Day 5</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-a-5">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-b-5">-</td>
+                <td class="px-4 py-2 text-slate-500" id="cell-c-5">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Critical Analysis, Active Discussions & AI Report Builder -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left Side: Discussion Questions -->
+        <div class="lg:col-span-7 space-y-4">
+          <h4 class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+            <i class="fa-solid fa-comments"></i>
+            <span data-en="Critical Discussion & Evaluation" data-ms="Perbincangan & Penilaian">Critical Discussion & Evaluation</span>
+          </h4>
+          
+          <div class="space-y-4">
+            <!-- Question 1 -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <p class="text-xs font-bold text-slate-800">Q1. Why is sugar added to container C, but omitted in container B?</p>
+              <p class="text-xs text-slate-500 mt-1" data-en="Sugar acts as an active carbon/energy substrate to wake yeast from dormant spore form. The rapid cell respiration accelerates lipase synthesis to catabolize cooking oil." data-ms="Gula bertindak sebagai substrat karbon/tenaga untuk mengaktifkan yis daripada spora dorman. Tindakan respirasi sel yis membebaskan tenaga dan lipase yang melarutkan lemak.">Sugar acts as an active carbon/energy substrate to wake yeast from dormant spore form. The rapid cell respiration accelerates lipase synthesis to catabolize cooking oil.</p>
+            </div>
+            <!-- Question 2 -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <p class="text-xs font-bold text-slate-800">Q2. How do our observations relate to real oil spill operations?</p>
+              <p class="text-xs text-slate-500 mt-1" data-en="It demonstrates bio-augmentation where specific nutrients are added to polluted seas to trigger native oil-eating bacteria growth." data-ms="Ia merujuk kepada konsep pengayaan biologi di mana nutrien disebarkan ke laut tercemar bagi merangsang pertumbuhan mikrob tempatan.">It demonstrates bio-augmentation where specific nutrients are added to polluted seas to trigger native oil-eating bacteria growth.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Generative AI Report Panel -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-emerald-900 to-teal-950 text-white p-6 rounded-3xl shadow-md border border-emerald-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-widest">
+                Gemini API Powered
+              </span>
+              <i class="fa-solid fa-microchip-aerospace text-emerald-400"></i>
+            </div>
+            <h4 class="text-base font-extrabold mt-3" data-en="AI Scientific Lab Report Compiler" data-ms="Penyusun Laporan Saintifik AI">
+              AI Scientific Lab Report Compiler
+            </h4>
+            <p class="text-xs text-emerald-200/80 mt-2 leading-relaxed" data-en="Harness the Gemini LLM engine to synthesize a full bilingual laboratory report based on your experiment's day-to-day visual observations." data-ms="Gunakan enjin Gemini LLM untuk menyusun laporan makmal dwibahasa yang lengkap berdasarkan data eksperimen harian anda.">
+              Harness the Gemini LLM engine to synthesize a full bilingual laboratory report based on your experiment's day-to-day visual observations.
+            </p>
+          </div>
+          
+          <div class="mt-6">
+            <button id="btnAILabReport" onclick="generateAILabReport()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold py-3 px-4 rounded-xl text-xs transition duration-200 shadow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-file-waveform animate-pulse"></i>
+              <span data-en="Compile Lab Report" data-ms="Sediakan Laporan">Compile Lab Report</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- PAGE 3: THREE SUBSCALES IN DEPTH -->
+    <section id="page3" class="tab-content hidden space-y-8">
+      
+      <!-- Subscale 1 Section -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 space-y-6">
+        <div class="border-b border-slate-100 pb-3">
+          <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">Subscale 1</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-2" data-en="Microbial Process: Decomposers in Ecosystem" data-ms="Proses Mikrob: Pengurai dalam Ekosistem">Microbial Process: Decomposers in Ecosystem</h3>
+          <p class="text-xs text-slate-500 mt-1" data-en="Understanding aerobic vs anaerobic bioremediation and chemical equations." data-ms="Memahami bioremediasi aerobik vs anaerobik dan persamaan kimianya.">Understanding aerobic vs anaerobic bioremediation and chemical equations.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600">
+          <!-- Aerobic -->
+          <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
+            <h4 class="text-sm font-bold text-indigo-950 mb-2">1. Aerobic Bioremediation (with Oxygen)</h4>
+            <p class="mb-3">Hydrocarbon decomposers oxidize carbon targets rapidly in oxygenated setups:</p>
+            <div class="bg-slate-900 text-emerald-400 p-2 rounded font-mono text-[11px] mb-3">
+              2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O + Energy
+            </div>
+            <p class="font-semibold text-indigo-900">Process: Bacteria (Pseudomonas) oxidize hydrocarbons, converting pollutants into Carbon dioxide + Water.</p>
+          </div>
+
+          <!-- Anaerobic -->
+          <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+            <h4 class="text-sm font-bold text-emerald-950 mb-2">2. Anaerobic Bioremediation (without Oxygen)</h4>
+            <p class="mb-3">Takes place in oxygen-deprived sediments. Microbes utilize nitrate instead of oxygen:</p>
+            <div class="bg-slate-900 text-emerald-400 p-2 rounded font-mono text-[11px] mb-3">
+              C₆H₁₂O₆ + 4NO₃⁻ → 6CO₂ + 6H₂O + 2N₂ + Energy
+            </div>
+            <p class="font-semibold text-emerald-900">Process: Nitrates act as electron acceptors, converting toxic compounds into harmless nitrogen gases.</p>
+          </div>
+        </div>
+
+        <!-- Subscale 1 Mini Quiz -->
+        <div id="sub1-quiz" class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+          <h4 class="text-xs font-bold text-indigo-800 uppercase mb-3">Subscale 1 Quiz (5 Questions)</h4>
+          <div id="sub1-qContainer" class="space-y-4">
+            <!-- Questions rendered in JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscale 2 Section -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 space-y-6">
+        <div class="border-b border-slate-100 pb-3">
+          <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">Subscale 2</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-2" data-en="Environmental Interaction: Phytoremediation" data-ms="Interaksi Persekitaran: Fitoremediasi">Environmental Interaction: Phytoremediation</h3>
+          <p class="text-xs text-slate-500 mt-1" data-en="Using biological plant systems to draw toxins from local school ponds." data-ms="Menggunakan sistem tumbuhan biologi untuk menyingkirkan toksin dari kolam sekolah.">Using biological plant systems to draw toxins from local school ponds.</p>
+        </div>
+
+        <!-- Phytoremediation Simulator -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 space-y-3 text-xs text-slate-600">
+            <p class="font-bold text-slate-800">Water Hyacinth (Eichhornia crassipes) Phytoremediation Lab Experiment</p>
+            <p>Water hyacinth roots act as bio-filters. Their extensive root surface absorbs heavy metals like cadmium or lead from polluted school pond wastewater.</p>
+            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100 text-emerald-900 font-semibold">
+              <span class="block">Simplified Chemical Pathway:</span>
+              Toxin(aq) + Plant Roots → Intracellular complex inside vacuole (immobilized and safe!)
+            </div>
+            <button onclick="runPhytoSim()" class="bg-emerald-600 hover:bg-emerald-500 text-xs font-bold px-4 py-2 rounded-lg text-white transition flex items-center gap-1.5 mt-2">
+              <i class="fa-solid fa-seedling"></i> Run Phytoremediation Sim
+            </button>
+          </div>
+
+          <!-- Dynamic Visual Simulation Panel -->
+          <div class="lg:col-span-7 bg-slate-900 rounded-xl p-4 text-white border border-slate-800 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-400">Pond Water Quality Indicator</span>
+              <span id="phytoToxinLabel" class="text-xs text-emerald-400 font-bold">Toxin Level: 100%</span>
+            </div>
+            
+            <div class="h-32 bg-slate-950 rounded border border-slate-800 relative overflow-hidden flex items-center justify-center">
+              <!-- Water -->
+              <div id="phytoWater" class="absolute inset-x-0 bottom-0 h-24 bg-teal-900/60 transition-all duration-[4s]"></div>
+              <!-- Floating Water Hyacinth SVG -->
+              <svg viewBox="0 0 100 100" class="w-16 h-16 relative z-10 select-none animate-bounce">
+                <!-- Leaves -->
+                <circle cx="50" cy="35" r="14" fill="#047857"/>
+                <circle cx="40" cy="30" r="10" fill="#059669"/>
+                <circle cx="60" cy="30" r="10" fill="#059669"/>
+                <!-- Stems -->
+                <rect x="47" y="45" width="6" height="20" fill="#10b981"/>
+                <!-- Roots -->
+                <path d="M47,65 Q40,80 47,95 M50,65 Q50,85 50,95 M53,65 Q60,80 53,95" stroke="#1f2937" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <div class="mt-3 flex items-center gap-4">
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="phytoProgress" class="bg-emerald-500 h-full w-0 transition-all duration-[4s]"></div>
+              </div>
+              <span id="phytoTime" class="text-[10px] text-slate-400 shrink-0">Duration: 4s</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subscale 2 Quiz -->
+        <div id="sub2-quiz" class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+          <h4 class="text-xs font-bold text-emerald-800 uppercase mb-3">Subscale 2 Quiz (5 Questions)</h4>
+          <div id="sub2-qContainer" class="space-y-4">
+            <!-- Questions rendered in JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscale 3 Section -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 space-y-6">
+        <div class="border-b border-slate-100 pb-3">
+          <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">Subscale 3</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-2" data-en="Chemical Degradation Pathways" data-ms="Laluan Degradasi Kimia">Chemical Degradation Pathways</h3>
+          <p class="text-xs text-slate-500 mt-1" data-en="Interactive animation showing the enzymatic hydrocarbon degradation pathway." data-ms="Animasi interaktif menunjukkan laluan degradasi hidrokarbon enzimatik.">Interactive animation showing the enzymatic hydrocarbon degradation pathway.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Pathway interactive diagram -->
+          <div class="lg:col-span-6 space-y-3 text-xs text-slate-600">
+            <p>How do micro-enzymes like monooxygenases turn long carbon chains into glucose inputs? Study the step-by-step molecular pathway below.</p>
+            
+            <div class="space-y-2">
+              <div class="bg-slate-50 hover:bg-amber-50 p-3 rounded-lg border border-slate-200 cursor-pointer transition flex items-center justify-between" onclick="triggerPathwayStep(1)">
+                <div>
+                  <strong class="text-amber-800 block">Step 1: Alkanes</strong>
+                  <span>Hexane/Octane hydrocarbon chain enters bacterial membrane.</span>
+                </div>
+                <i class="fa-solid fa-circle-play text-amber-600 text-base"></i>
+              </div>
+              
+              <div class="bg-slate-50 hover:bg-amber-50 p-3 rounded-lg border border-slate-200 cursor-pointer transition flex items-center justify-between" onclick="triggerPathwayStep(2)">
+                <div>
+                  <strong class="text-amber-800 block">Step 2: Alcohols</strong>
+                  <span>Monooxygenase enzyme inserts oxygen, forming primary alcohols.</span>
+                </div>
+                <i class="fa-solid fa-circle-play text-amber-600 text-base"></i>
+              </div>
+
+              <div class="bg-slate-50 hover:bg-amber-50 p-3 rounded-lg border border-slate-200 cursor-pointer transition flex items-center justify-between" onclick="triggerPathwayStep(3)">
+                <div>
+                  <strong class="text-amber-800 block">Step 3: Beta-Oxidation</strong>
+                  <span>Carboxylic acids breakdown into Acetyl-CoA molecules to fuel cell respiration.</span>
+                </div>
+                <i class="fa-solid fa-circle-play text-amber-600 text-base"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Pathway Canvas/Display with Google Imagen 4.0 Integration -->
+          <div class="lg:col-span-6 bg-slate-900 text-white rounded-xl p-4 border border-slate-800 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-slate-400 font-semibold">AI Biological Diagram Generator</span>
+              <span class="bg-amber-500/20 text-amber-400 text-[9px] font-bold px-2 py-0.5 rounded border border-amber-500/30 tracking-widest uppercase">
+                Imagen 4.0
+              </span>
+            </div>
+            
+            <div id="pathwayDisplay" class="h-48 bg-slate-950 rounded flex flex-col items-center justify-center p-3 text-center border border-slate-800 relative overflow-hidden">
+              <span class="text-3xl mb-2" id="pathwayPlaceholderEmoji">🧬</span>
+              <p class="text-xs text-slate-400" id="pathwayPlaceholderText">Select a chemical step from the left, or write a custom description below to illustrate chemical degradation!</p>
+              <img id="aiGenImage" class="absolute inset-0 w-full h-full object-cover hidden" alt="AI Generated Illustration" onerror="this.src='https://placehold.co/400x200/0f172a/94a3b8?text=Image+Generation+Unavailable'">
+              
+              <!-- Loader backdrop -->
+              <div id="aiImageLoading" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center hidden">
+                <i class="fa-solid fa-spinner animate-spin text-amber-500 text-3xl mb-2"></i>
+                <p class="text-xs text-amber-300 font-bold" data-en="Synthesizing Concept Art with Imagen..." data-ms="Membina Seni Konsep dengan Imagen...">Synthesizing Concept Art with Imagen...</p>
+              </div>
+            </div>
+            
+            <div class="mt-3 flex gap-2">
+              <input type="text" id="aiImagePrompt" placeholder="E.g., Scanning electron micrograph of Pseudomonas eating crude oil" class="flex-grow bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition-all">
+              <button onclick="generateAIConceptImage()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-4 py-2 rounded-lg text-xs transition shrink-0 flex items-center gap-1">
+                <i class="fa-solid fa-palette"></i> Draw
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subscale 3 Quiz -->
+        <div id="sub3-quiz" class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+          <h4 class="text-xs font-bold text-amber-800 uppercase mb-3">Subscale 3 Quiz (5 Questions)</h4>
+          <div id="sub3-qContainer" class="space-y-4">
+            <!-- Questions rendered in JS -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- PAGE 4: SYSTEMS THINKING CHART -->
+    <section id="page4" class="tab-content hidden space-y-8">
+      
+      <!-- Systems Thinking Explanation -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          Systems Thinking Map (Peta Pemikiran Sistem)
+        </span>
+        <h3 class="text-2xl font-extrabold text-slate-950 mt-3" data-en="Applying Systems Thinking to Bioremediation" data-ms="Mengaplikasikan Pemikiran Sistem">
+          Applying Systems Thinking to Bioremediation
+        </h3>
+        <p class="text-xs text-slate-500 mt-1" data-en="Understand how small-scale chemical reactions impact large-scale socio-economic systems!" data-ms="Fahami bagaimana tindak balas kimia berskala kecil memberi kesan kepada sistem sosio-ekonomi yang besar!">Understand how small-scale chemical reactions impact large-scale socio-economic systems!</p>
+      </div>
+
+      <!-- Interactive Map Builder -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Interactive Workspace -->
+        <div class="lg:col-span-8 bg-slate-900 rounded-3xl p-6 text-white border border-slate-800">
+          <h4 class="text-base font-bold mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-emerald-400"></i>
+            <span data-en="Build Your Bioremediation Map" data-ms="Bina Peta Bioremediasi Anda">Build Your Bioremediation Map</span>
+          </h4>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Dropzones -->
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+              <span class="text-xs font-bold text-teal-400 block mb-2">1. Core Reaction System</span>
+              <div id="zone-core" class="border border-dashed border-teal-800 min-h-[50px] rounded p-2 flex items-center justify-center text-xs text-slate-500">
+                Drop matching concept card here
+              </div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+              <span class="text-xs font-bold text-emerald-400 block mb-2">2. Reaction Control Subsystem</span>
+              <div id="zone-control" class="border border-dashed border-emerald-800 min-h-[50px] rounded p-2 flex items-center justify-center text-xs text-slate-500">
+                Drop matching concept card here
+              </div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+              <span class="text-xs font-bold text-amber-400 block mb-2">3. Chemical Input Subsystem</span>
+              <div id="zone-input" class="border border-dashed border-amber-800 min-h-[50px] rounded p-2 flex items-center justify-center text-xs text-slate-500">
+                Drop matching concept card here
+              </div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+              <span class="text-xs font-bold text-red-400 block mb-2">4. Unintended Consequences</span>
+              <div id="zone-unintended" class="border border-dashed border-red-800 min-h-[50px] rounded p-2 flex items-center justify-center text-xs text-slate-500">
+                Drop matching concept card here
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-slate-800 pt-4 gap-4">
+            <div class="flex gap-2.5">
+              <button onclick="checkSystemsMap()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition border border-slate-700">
+                Validate Layout
+              </button>
+              <button id="btnAIEvaluateSystems" onclick="callGeminiSystemsEvaluator()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-5 py-2 rounded-lg text-xs transition shadow flex items-center gap-1.5">
+                <i class="fa-solid fa-brain animate-pulse"></i>
+                <span data-en="AI Critical Analysis Check" data-ms="Penilaian Kritikal AI">AI Critical Analysis Check</span>
+              </button>
+            </div>
+            <p id="systemsFeedback" class="text-xs font-semibold text-emerald-400 hidden">Perfect alignment! Systems connected successfully.</p>
+          </div>
+        </div>
+
+        <!-- Cards Deck (Students pick cards) -->
+        <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-slate-200 space-y-4">
+          <h4 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">Available System Cards</h4>
+          <p class="text-[11px] text-slate-500">Tap cards to assign them to correct workspace slots sequentially.</p>
+          
+          <div class="space-y-3">
+            <div onclick="assignSystemCard('core', 'Hydrocarbon Catabolism by Pseudomonas')" class="bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 p-3 rounded-lg cursor-pointer transition text-xs font-medium">
+              📁 Hydrocarbon Catabolism by Pseudomonas
+            </div>
+            <div onclick="assignSystemCard('control', 'Enzymatic Ph Regulation & Temperature')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 p-3 rounded-lg cursor-pointer transition text-xs font-medium">
+              📁 Enzymatic Ph Regulation & Temperature
+            </div>
+            <div onclick="assignSystemCard('input', 'Active Sugar & Dissolved Nutrients')" class="bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 p-3 rounded-lg cursor-pointer transition text-xs font-medium">
+              📁 Active Sugar & Dissolved Nutrients
+            </div>
+            <div onclick="assignSystemCard('unintended', 'Eutrophication Risks in Freshwater')" class="bg-slate-50 hover:bg-red-50 border border-slate-200 hover:border-red-300 p-3 rounded-lg cursor-pointer transition text-xs font-medium">
+              📁 Eutrophication Risks in Freshwater
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- PAGE 5: FORMATIVE TEST (SNAKE & LADDER) -->
+    <section id="page5" class="tab-content hidden space-y-8">
+      
+      <!-- Snake & Ladder Interactive Game Interface -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
+        <div class="flex flex-col md:flex-row items-center justify-between border-b border-slate-100 pb-4 mb-6 gap-4">
+          <div>
+            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              Gamified Formative Evaluation
+            </span>
+            <h3 class="text-2xl font-extrabold text-slate-900 mt-2" data-en="Bioremediation Snake & Ladder Board" data-ms="Papan Ular & Tangga Bioremediasi">
+              Bioremediation Snake & Ladder Board
+            </h3>
+            <p class="text-xs text-slate-500" data-en="Roll the dice, move your pawn, and answer MCQs to advance to the finish line!" data-ms="Baling dadu, gerakkan bidak anda, dan jawab soalan untuk mara ke garisan penamat!">Roll the dice, move your pawn, and answer MCQs to advance to the finish line!</p>
+          </div>
+          
+          <!-- Name Registration & Leaderboard -->
+          <div class="flex items-center gap-3 w-full md:w-auto">
+            <input type="text" id="studentName" placeholder="Enter student name..." class="bg-slate-50 border border-slate-200 text-xs font-semibold py-2 px-4 rounded-xl focus:outline-emerald-600 shrink-0 w-full md:w-48">
+            <div class="bg-emerald-50 text-emerald-800 text-xs font-bold py-2 px-4 rounded-xl border border-emerald-100 shrink-0">
+              Score: <span id="boardScore">0</span> pts
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Interactive Snake & Ladder Visual Grid -->
+          <div class="lg:col-span-8 bg-slate-950 rounded-2xl p-4 border border-slate-800">
+            <div class="grid grid-cols-6 gap-2 text-center" id="boardGrid">
+              <!-- Grid will be generated dynamically 30 to 1 -->
+            </div>
+          </div>
+
+          <!-- Rolling & Actions Control Column -->
+          <div class="lg:col-span-4 bg-slate-50 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Actions Console</h4>
+              
+              <div class="bg-white p-4 rounded-xl border border-slate-200/60 text-center mb-6">
+                <span class="text-[10px] text-slate-400 block" data-en="Your Pawn Position:" data-ms="Kedudukan Bidak:">Your Pawn Position:</span>
+                <span id="pawnPos" class="text-2xl font-black text-emerald-700">Tile 1</span>
+              </div>
+
+              <!-- Dice block -->
+              <div class="flex flex-col items-center gap-3">
+                <div id="diceVisual" class="w-16 h-16 bg-white border-2 border-slate-300 rounded-2xl flex items-center justify-center text-3xl font-black text-slate-800 shadow-sm animate-pulse">
+                  🎲
+                </div>
+                <button onclick="rollDice()" class="bg-emerald-600 hover:bg-emerald-500 text-xs font-extrabold py-2.5 px-6 rounded-xl transition text-white shadow-sm flex items-center gap-1.5">
+                  <i class="fa-solid fa-dice"></i> Roll Dice
+                </button>
+              </div>
+            </div>
+
+            <!-- Google Sheets Sync Details -->
+            <div class="mt-8 border-t border-slate-200 pt-4">
+              <button onclick="toggleTeacherInstructions()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold py-2 px-4 rounded-xl text-white transition w-full flex items-center justify-center gap-1">
+                <i class="fa-solid fa-cog"></i> Teacher Google Sheets Setup
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Interactive Teacher Google Sheets Instructions Panel -->
+      <div id="teacherPanel" class="bg-slate-900 text-slate-300 rounded-3xl p-6 border border-slate-800 space-y-4 hidden">
+        <h4 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-brands fa-google-drive"></i>
+          <span>Teacher's Portal: Google Sheets & Apps Script Integration</span>
+        </h4>
+        <p class="text-xs text-slate-400">Follow these steps to seamlessly sync student assessment scores directly to your centralized school gradebook.</p>
+        
+        <div class="space-y-3 text-xs text-slate-300">
+          <p><strong>Step 1:</strong> Create a new Google Sheet named <code class="bg-slate-800 px-1 py-0.5 rounded text-emerald-400">BioGenSC_Grades</code>.</p>
+          <p><strong>Step 2:</strong> Go to <strong>Extensions > Apps Script</strong> and paste the following script block:</p>
+          
+          <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-[11px] font-mono overflow-x-auto text-emerald-400">
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  sheet.appendRow([new Date(), data.studentName, data.score, data.subscale1, data.subscale2, data.subscale3]);
+  return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+}</pre>
+          <p><strong>Step 3:</strong> Deploy as a web app, and insert your Web App URL into your Gradebook configuration settings.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="bg-slate-100 border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-xs text-slate-500">
+      <p>© 2026 BioGenSC Virtual Biology Learning Suite. Designed for Malaysian Secondary Education syllabus.</p>
+    </div>
+  </footer>
+
+  <!-- Scientific Lab Report Output Modal -->
+  <div id="reportModal" class="fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full border border-slate-100 shadow-2xl flex flex-col h-[85vh] animate-fade-in">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 shrink-0">
+        <h4 class="text-base font-extrabold text-slate-900" data-en="AI Compiled Laboratory Report" data-ms="Laporan Makmal Hasil AI">
+          AI Compiled Laboratory Report
+        </h4>
+        <button onclick="document.getElementById('reportModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      
+      <!-- Generated Report Body Area -->
+      <div id="reportContent" class="flex-grow overflow-y-auto custom-scroll text-xs text-slate-700 space-y-4 py-4 pr-1 leading-relaxed">
+        <!-- AI output will be injected here -->
+      </div>
+      
+      <!-- Utility controls -->
+      <div class="border-t border-slate-100 pt-3 flex justify-end shrink-0 gap-2">
+        <button onclick="copyReportToClipboard()" class="bg-emerald-50 text-emerald-800 border border-emerald-500/20 font-bold px-4 py-2.5 rounded-xl text-xs hover:bg-emerald-100 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-copy"></i> Copy Report
+        </button>
+        <button onclick="document.getElementById('reportModal').classList.add('hidden')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2.5 rounded-xl text-xs transition">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Overlay Modal (Snake & Ladder Quizzes) -->
+  <div id="quizModal" class="fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-slate-100 shadow-xl space-y-4 relative">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h4 id="modalTitle" class="text-sm font-bold text-slate-900">Bioremediation Board Question</h4>
+        <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Evaluation</span>
+      </div>
+      <p id="modalQuestionText" class="text-sm text-slate-800 font-semibold"></p>
+      
+      <div id="modalAnswers" class="space-y-2">
+        <!-- Buttons injected by JS -->
+      </div>
+      
+      <p id="modalFeedback" class="text-xs font-semibold text-emerald-600 hidden"></p>
+    </div>
+  </div>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div id="aiChatbot" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <!-- Chat Window Container -->
+    <div id="chatWindow" class="hidden w-80 sm:w-96 h-[460px] bg-white rounded-2xl shadow-2xl border border-slate-200/80 flex flex-col overflow-hidden transition-all duration-300 mb-3">
+      <!-- Chat Header -->
+      <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-4 flex items-center justify-between shadow-xs">
+        <div class="flex items-center gap-2.5">
+          <div class="bg-emerald-500 text-emerald-950 p-2 rounded-xl flex items-center justify-center font-bold">
+            <i class="fa-solid fa-robot text-sm animate-pulse"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs tracking-wide">BioGen Tutor AI</h4>
+            <p class="text-[9px] text-emerald-300 font-semibold">Form 5 Biology Expert Assistant</p>
+          </div>
+        </div>
+        <button onclick="toggleChat()" class="text-white hover:text-emerald-200 transition p-1">
+          <i class="fa-solid fa-minus text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Chat History Logs -->
+      <div id="chatMessages" class="flex-grow p-4 overflow-y-auto space-y-3.5 text-xs custom-scroll bg-slate-50 flex flex-col">
+        <!-- Default Assistant Welcome Message -->
+        <div class="bg-emerald-100/70 border border-emerald-200 text-emerald-900 p-3 rounded-2xl max-w-[85%] self-start rounded-tl-none font-medium leading-relaxed">
+          <p class="mb-1"><strong>🤖 BioGen Bot:</strong></p>
+          <p data-en="Hi there! I am your AI biology tutor. Ask me anything about bioremediation, Pseudomonas, yeast, environmental chemistry, or Form 5 syllabus facts!"
+             data-ms="Hai! Saya pembantu tutor biologi AI anda. Tanya saya apa-apa soalan tentang bioremediasi, Pseudomonas, yis, kimia persekitaran atau syllabus Form 5!">
+            Hi there! I am your AI biology tutor. Ask me anything about bioremediation, Pseudomonas, yeast, environmental chemistry, or Form 5 syllabus facts!
+          </p>
+        </div>
+      </div>
+
+      <!-- Live Typing Loader Spinner -->
+      <div id="chatLoading" class="hidden px-4 py-2 bg-slate-50 flex items-center gap-2">
+        <div class="bg-slate-200 text-slate-600 p-2 rounded-xl flex items-center gap-1">
+          <span class="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"></span>
+          <span class="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+          <span class="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+        </div>
+      </div>
+
+      <!-- Suggestions Chips Dashboard -->
+      <div class="px-4 py-2 border-t border-slate-100 bg-white flex gap-1.5 overflow-x-auto custom-scroll shrink-0">
+        <button onclick="sendSuggestedQuestion('What exactly is Pseudomonas aeruginosa?')" class="text-[10px] bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition px-2.5 py-1.5 rounded-full border border-slate-200 text-slate-600 font-semibold shrink-0">🦠 What is Pseudomonas?</button>
+        <button onclick="sendSuggestedQuestion('Explain why sugar is required in Container C.')" class="text-[10px] bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition px-2.5 py-1.5 rounded-full border border-slate-200 text-slate-600 font-semibold shrink-0">🍬 Sugar in Container C?</button>
+        <button onclick="sendSuggestedQuestion('Define phytoremediation and give examples.')" class="text-[10px] bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition px-2.5 py-1.5 rounded-full border border-slate-200 text-slate-600 font-semibold shrink-0">🌱 Phytoremediation?</button>
+      </div>
+
+      <!-- Text Messaging Input controls -->
+      <div class="p-3 border-t border-slate-100 bg-white flex gap-2 items-center shrink-0">
+        <input type="text" id="chatInput" onkeydown="handleChatKey(event)" placeholder="Ask a biology question..." class="flex-grow bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-emerald-600 focus:bg-white transition-all">
+        <button onclick="sendMessage()" class="bg-emerald-600 hover:bg-emerald-500 text-white w-9 h-9 rounded-xl flex items-center justify-center transition shrink-0 shadow-xs">
+          <i class="fa-solid fa-paper-plane text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggle Widget Launcher Button -->
+    <button onclick="toggleChat()" class="bg-emerald-600 hover:bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-105 active:scale-95 group">
+      <i id="chatIcon" class="fa-solid fa-comment-dots text-2xl group-hover:rotate-12 transition-transform"></i>
+    </button>
+  </div>
+
+  <script>
+    // Global State
+    let currentLanguage = 'en';
+    let gameScore = 0;
+    let gameTimeLeft = 30;
+    let gameInterval;
+    let gameActive = false;
+    let particlesArray = [];
+    let oilSlicksArray = [];
+
+    // Drag-and-drop state configuration for Virtual Lab Setup
+    let selectedMaterial = null;
+    let isSetupComplete = false;
+    let beakerState = {
+      A: { water: false, oil: false, yeast: false, sugar: false },
+      B: { water: false, oil: false, yeast: false, sugar: false },
+      C: { water: false, oil: false, yeast: false, sugar: false }
+    };
+
+    // Navigation logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-700', 'text-white', 'shadow-sm');
+        btn.classList.add('text-emerald-300', 'hover:text-white');
+      });
+      document.getElementById(`tab-${tabId}`).classList.remove('text-emerald-300', 'hover:text-white');
+      document.getElementById(`tab-${tabId}`).classList.add('bg-emerald-700', 'text-white', 'shadow-sm');
+
+      // Trigger custom setup or sizing adjustments
+      if(tabId === 'page1') {
+        initGameEngine();
+      }
+    }
+
+    // Bilingual translation trigger
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'en' ? 'ms' : 'en';
+      document.getElementById('langLabel').innerText = currentLanguage === 'en' ? 'Switch to Bahasa Melayu' : 'Switch to English';
+      
+      // Select elements containing translations
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.innerText = el.getAttribute(`data-${currentLanguage}`);
+      });
+      
+      // Refresh beaker status displays
+      validateSetup();
+    }
+
+    // Web Speech API Bilingual Text to Speech Narration
+    function speakPageText() {
+      let pageText = "Welcome to BioGenSC. Bioremediation: Using Microorganisms to Clean Oil Pollution.";
+      if(currentLanguage === 'ms') {
+        pageText = "Selamat datang ke BioGenSC. Bioremediasi: Menggunakan Mikroorganisma untuk Membersihkan Tumpahan Minyak.";
+      }
+      
+      const utterance = new SpeechSynthesisUtterance(pageText);
+      utterance.lang = currentLanguage === 'en' ? 'en-US' : 'ms-MY';
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Mini Quiz checkers
+    function checkMiniQuiz(quizNum, selection, btnElement) {
+      const feedback = document.getElementById(`quiz${quizNum}-feedback`);
+      feedback.classList.remove('hidden', 'text-emerald-600', 'text-red-500');
+      
+      if(quizNum === 1) {
+        if(selection === 'a') {
+          feedback.innerText = "Correct! Yeast is widely deployed for oil hydrocarbon decomposition.";
+          feedback.classList.add('text-emerald-600');
+        } else {
+          feedback.innerText = "Incorrect. Try again!";
+          feedback.classList.add('text-red-500');
+        }
+      } else if(quizNum === 2) {
+        if(selection === 'a') {
+          feedback.innerText = "Correct! Water pollution destroys fish stocks, directly triggering extreme income loss for coastal fishermen.";
+          feedback.classList.add('text-emerald-600');
+        } else {
+          feedback.innerText = "Incorrect. Think about immediate household security.";
+          feedback.classList.add('text-red-500');
+        }
+      }
+    }
+
+    // PAGE 1: GAMIFIED OIL DEGRADATION ENGINE (CANVAS)
+    const canvas = document.getElementById('spillGameCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    function initGameEngine() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      oilSlicksArray = [];
+      particlesArray = [];
+      
+      // Spawn initial oil slicks (amber droplets)
+      for(let i=0; i<15; i++) {
+        oilSlicksArray.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 20 + 10,
+          color: 'rgba(245, 158, 11, 0.7)' // Amber
+        });
+      }
+      drawGame();
+    }
+
+    function drawGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw oil slicks
+      oilSlicksArray.forEach(slick => {
+        ctx.beginPath();
+        ctx.arc(slick.x, slick.y, slick.radius, 0, Math.PI * 2);
+        ctx.fillStyle = slick.color;
+        ctx.fill();
+      });
+
+      // Draw microbial particles
+      particlesArray.forEach((part, index) => {
+        ctx.beginPath();
+        ctx.arc(part.x, part.y, part.radius, 0, Math.PI * 2);
+        ctx.fillStyle = part.color;
+        ctx.fill();
+        
+        // Move towards nearest oil slick
+        let target = getNearestSlick(part);
+        if(target) {
+          let dx = target.x - part.x;
+          let dy = target.y - part.y;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist > 2) {
+            part.x += (dx / dist) * 2;
+            part.y += (dy / dist) * 2;
+          } else {
+            // Absorb oil
+            target.radius -= 2;
+            gameScore += 5;
+            document.getElementById('gameScore').innerText = gameScore;
+            
+            if(target.radius <= 5) {
+              // Delete oil slick
+              oilSlicksArray = oilSlicksArray.filter(s => s !== target);
+            }
+            particlesArray.splice(index, 1);
+          }
+        }
+      });
+    }
+
+    function getNearestSlick(part) {
+      if(oilSlicksArray.length === 0) return null;
+      let nearest = oilSlicksArray[0];
+      let minDist = Infinity;
+      oilSlicksArray.forEach(slick => {
+        let dist = Math.hypot(slick.x - part.x, slick.y - part.y);
+        if(dist < minDist) {
+          minDist = dist;
+          nearest = slick;
+        }
+      });
+      return nearest;
+    }
+
+    function startGame() {
+      document.getElementById('gameOverlay').classList.add('hidden');
+      gameScore = 0;
+      gameTimeLeft = 30;
+      gameActive = true;
+      document.getElementById('gameScore').innerText = gameScore;
+      document.getElementById('gameTimer').innerText = `${gameTimeLeft}s`;
+      
+      initGameEngine();
+      
+      clearInterval(gameInterval);
+      gameInterval = setInterval(() => {
+        gameTimeLeft--;
+        document.getElementById('gameTimer').innerText = `${gameTimeLeft}s`;
+        if(gameTimeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+
+      animateGameLoop();
+    }
+
+    function animateGameLoop() {
+      if(!gameActive) return;
+      drawGame();
+      requestAnimationFrame(animateGameLoop);
+    }
+
+    function endGame() {
+      gameActive = false;
+      clearInterval(gameInterval);
+      document.getElementById('gameOverlay').classList.remove('hidden');
+      document.getElementById('gameOverlay').innerHTML = `
+        <h4 class="text-xl font-bold text-emerald-400">Time's Up! Cleanups completed!</h4>
+        <p class="text-sm text-white mt-1">Excellent job! You score ${gameScore} bioremediation points.</p>
+        <button onclick="startGame()" class="mt-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl transition">Play Again</button>
+      `;
+    }
+
+    canvas.addEventListener('click', (e) => {
+      if(!gameActive) return;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      
+      // Spawn 5 active Pseudomonas bacteria at click location
+      for(let i=0; i<5; i++) {
+        particlesArray.push({
+          x: clickX + (Math.random() * 10 - 5),
+          y: clickY + (Math.random() * 10 - 5),
+          radius: 3,
+          color: '#10b981' // Bright green
+        });
+      }
+    });
+
+    // DRAG AND DROP HANDLERS FOR VIRTUAL EXPERIMENT SETUP
+    function handleDragStart(ev, material) {
+      ev.dataTransfer.setData("text/plain", material);
+    }
+    
+    function handleDragOver(ev) {
+      ev.preventDefault();
+    }
+    
+    function handleDrop(ev, beakerId) {
+      ev.preventDefault();
+      const material = ev.dataTransfer.getData("text/plain");
+      addMaterialToBeaker(beakerId, material);
+    }
+    
+    function handleTapMaterial(material, element) {
+      // Clear selections from all cards
+      document.querySelectorAll('.material-card').forEach(card => {
+        card.classList.remove('ring-4', 'ring-emerald-500', 'scale-105');
+      });
+      
+      if (selectedMaterial === material) {
+        selectedMaterial = null;
+      } else {
+        selectedMaterial = material;
+        element.classList.add('ring-4', 'ring-emerald-500', 'scale-105');
+      }
+    }
+    
+    function handleBeakerClick(beakerId) {
+      if (selectedMaterial) {
+        addMaterialToBeaker(beakerId, selectedMaterial);
+        // Clear active selection state
+        selectedMaterial = null;
+        document.querySelectorAll('.material-card').forEach(card => {
+          card.classList.remove('ring-4', 'ring-emerald-500', 'scale-105');
+        });
+      }
+    }
+    
+    function addMaterialToBeaker(beakerId, material) {
+      if (currentExpDay !== 1) {
+        alert("The setup phase has passed. Reset the experiment to change ingredients.");
+        return;
+      }
+      beakerState[beakerId][material] = true;
+      updateBeakerVisuals(beakerId);
+      validateSetup();
+    }
+
+    function updateBeakerVisuals(beakerId) {
+      const state = beakerState[beakerId];
+      const waterEl = document.getElementById(`beaker${beakerId}-water`);
+      const oilEl = document.getElementById(`beaker${beakerId}-oil`);
+      const yeastEl = document.getElementById(`beaker${beakerId}-yeast`);
+      const yeastDryEl = document.getElementById(`beaker${beakerId}-yeast-dry`);
+      const sugarEl = document.getElementById(`beaker${beakerId}-sugar`);
+      const labelsEl = document.getElementById(`beaker${beakerId}-added-labels`);
+      
+      // 1. Water Visual Layer Configuration (fills to 60px if present)
+      let waterHeight = 0;
+      if (state.water) {
+        waterHeight = 60; // 60px out of 128px beaker height
+        waterEl.style.height = `${waterHeight}px`;
+        
+        // Change color based on ingredients inside the water
+        if (state.yeast) {
+          waterEl.className = "absolute left-0 right-0 bottom-0 bg-amber-100/40 transition-all duration-500 z-10 overflow-hidden";
+          if (yeastEl) yeastEl.style.opacity = '1';
+          if (yeastDryEl) yeastDryEl.style.height = '0px';
+        } else {
+          waterEl.className = "absolute left-0 right-0 bottom-0 bg-sky-400/30 transition-all duration-500 z-10 overflow-hidden";
+          if (yeastEl) yeastEl.style.opacity = '0';
+          if (yeastDryEl) yeastDryEl.style.height = '0px';
+        }
+      } else {
+        waterEl.style.height = '0px';
+        if (yeastEl) yeastEl.style.opacity = '0';
+        
+        // Yeast without water accumulates at dry bottom
+        if (state.yeast && yeastDryEl) {
+          yeastDryEl.style.height = '8px';
+        } else if (yeastDryEl) {
+          yeastDryEl.style.height = '0px';
+        }
+      }
+      
+      // 2. Oil Visual Layer Configuration (sits on top of water or directly at the bottom)
+      if (state.oil) {
+        oilEl.style.height = '16px';
+        oilEl.style.bottom = `${waterHeight}px`; // floats beautifully above the water height!
+      } else {
+        oilEl.style.height = '0px';
+        oilEl.style.bottom = '0px';
+      }
+
+      // 3. Sugar Layer (sits at bottom)
+      if (state.sugar && sugarEl) {
+        sugarEl.style.height = '6px';
+      } else if (sugarEl) {
+        sugarEl.style.height = '0px';
+      }
+
+      // 4. Special yeast + sugar reaction bubbles for beaker C
+      if (beakerId === 'C') {
+        const bubblesEl = document.getElementById('beakerC-bubbles');
+        if (state.water && state.yeast && state.sugar && bubblesEl) {
+          bubblesEl.style.opacity = '1';
+        } else if (bubblesEl) {
+          bubblesEl.style.opacity = '0';
+        }
+      }
+
+      // 5. Dynamic text labels update
+      let addedList = [];
+      if (state.water) addedList.push(currentLanguage === 'en' ? "Water" : "Air");
+      if (state.oil) addedList.push(currentLanguage === 'en' ? "Oil" : "Minyak");
+      if (state.yeast) addedList.push(currentLanguage === 'en' ? "Yeast" : "Yis");
+      if (state.sugar) addedList.push(currentLanguage === 'en' ? "Sugar" : "Gula");
+      labelsEl.innerText = addedList.length > 0 ? addedList.join(" + ") : "-";
+    }
+
+    function validateSetup() {
+      const state = beakerState;
+      const statusText = document.getElementById('beakerStatusText');
+      
+      // Formula validation
+      const correctA = state.A.water && state.A.oil && !state.A.yeast && !state.A.sugar;
+      const correctB = state.B.water && state.B.oil && state.B.yeast && !state.B.sugar;
+      const correctC = state.C.water && state.C.oil && state.C.yeast && state.C.sugar;
+      
+      if (correctA && correctB && correctC) {
+        isSetupComplete = true;
+        statusText.innerText = currentLanguage === 'en' 
+          ? "Day 1 Setup complete! Click 'Next Day' to begin observations."
+          : "Penyediaan Hari 1 lengkap! Klik 'Hari Seterusnya' untuk memulakan pemerhatian.";
+        statusText.classList.remove('text-amber-300', 'text-red-400');
+        statusText.classList.add('text-emerald-400', 'font-extrabold');
+      } else {
+        isSetupComplete = false;
+        statusText.classList.remove('text-emerald-400', 'font-extrabold');
+        statusText.classList.add('text-amber-300');
+        
+        let tips = [];
+        if (!state.A.water || !state.A.oil) tips.push("A: Missing Water/Oil");
+        if (state.A.yeast || state.A.sugar) tips.push("A: Must not have Yeast/Sugar (Control)");
+        if (!state.B.water || !state.B.oil || !state.B.yeast) tips.push("B: Missing Yeast/Water/Oil");
+        if (state.B.sugar) tips.push("B: Must not have Sugar");
+        if (!state.C.water || !state.C.oil || !state.C.yeast || !state.C.sugar) tips.push("C: Missing Water/Oil/Yeast/Sugar");
+        
+        statusText.innerText = (currentLanguage === 'en' ? "Setup Phase Tips: " : "Panduan Penyediaan: ") + tips.join(" | ");
+      }
+    }
+
+    // PAGE 2: EXPERIMENT SIMULATOR STATE CYCLE (PRESERVED LOGS)
+    let currentExpDay = 1;
+    const expLogs = {
+      2: {
+        A: "Layer thick, unchanged. No respiration observed.",
+        B: "Slight lipid drop formation, pale gray bacterial cloud forming.",
+        C: "Bubbles starting, mild yeast odor, oil droplets breaking into smaller segments."
+      },
+      3: {
+        A: "Water layer highly separated, clear yellow oil slick.",
+        B: "Moderate lipid breakdown, minor cell division at base.",
+        C: "Dense foaming, sweet yeast metabolism, large chunks of oil emulsifying."
+      },
+      4: {
+        A: "Unchanged oil layer.",
+        B: "Cloudy water suspension, noticeable thinning of oil layer.",
+        C: "Thick cellular colony, oil layers dissolved and transformed into fatty acid complexes."
+      },
+      5: {
+        A: "Perfect separation. Heavy persistent raw oil scent.",
+        B: "Noticeable microbial breakdown, light surface film remains.",
+        C: "Water is creamy brown, oil layer completely dissolved. Proof of complete bioremediation."
+      }
+    };
+
+    function advanceExperimentDay() {
+      if (currentExpDay === 1 && !isSetupComplete) {
+        alert(currentLanguage === 'en' 
+          ? "Please complete the Container setups correctly before advancing!" 
+          : "Sila lengkapkan persediaan Bekas dengan betul sebelum meneruskan!");
+        return;
+      }
+      
+      if(currentExpDay >= 5) return;
+      currentExpDay++;
+      document.getElementById('experimentDayDisplay').innerText = currentExpDay;
+      
+      // Update visual container states
+      if(currentExpDay === 2) {
+        document.getElementById('beakerB-oil').style.height = '12px';
+        document.getElementById('beakerC-oil').style.height = '10px';
+        document.getElementById('beakerC-bubbles').style.opacity = '0.5';
+        document.getElementById('beakerStatusText').innerText = "Day 2: Yeast culture starts digesting sugars, creating tiny carbon dioxide micro-bubbles.";
+      } else if(currentExpDay === 3) {
+        document.getElementById('beakerB-oil').style.height = '10px';
+        document.getElementById('beakerC-oil').style.height = '6px';
+        document.getElementById('beakerC-bubbles').style.opacity = '0.8';
+        document.getElementById('beakerStatusText').innerText = "Day 3: Active enzymes catalyze lipid chains. Container C shows creamy emulsified suspension.";
+      } else if(currentExpDay === 4) {
+        document.getElementById('beakerB-oil').style.height = '8px';
+        document.getElementById('beakerC-oil').style.height = '3px';
+        document.getElementById('beakerStatusText').innerText = "Day 4: Major degradation sequence completed in the sugar-inoculated setup C.";
+      } else if(currentExpDay === 5) {
+        document.getElementById('beakerB-oil').style.height = '6px';
+        document.getElementById('beakerC-oil').style.height = '0px';
+        document.getElementById('beakerStatusText').innerText = "Day 5: Complete degradation in Setup C. The oil layer has completely broken down into harmless metabolic byproducts.";
+      }
+
+      // Unlock observation row
+      const row = document.getElementById(`row-day${currentExpDay}`);
+      row.classList.remove('opacity-40');
+      document.getElementById(`cell-a-${currentExpDay}`).innerText = expLogs[currentExpDay].A;
+      document.getElementById(`cell-b-${currentExpDay}`).innerText = expLogs[currentExpDay].B;
+      document.getElementById(`cell-c-${currentExpDay}`).innerText = expLogs[currentExpDay].C;
+    }
+
+    function resetExperiment() {
+      currentExpDay = 1;
+      isSetupComplete = false;
+      beakerState = {
+        A: { water: false, oil: false, yeast: false, sugar: false },
+        B: { water: false, oil: false, yeast: false, sugar: false },
+        C: { water: false, oil: false, yeast: false, sugar: false }
+      };
+      document.getElementById('experimentDayDisplay').innerText = 1;
+      
+      // Reset visual elements to blank
+      updateBeakerVisuals('A');
+      updateBeakerVisuals('B');
+      updateBeakerVisuals('C');
+      validateSetup();
+      
+      // Clear log rows
+      for(let day=2; day<=5; day++) {
+        document.getElementById(`row-day${day}`).classList.add('opacity-40');
+        document.getElementById(`cell-a-${day}`).innerText = '-';
+        document.getElementById(`cell-b-${day}`).innerText = '-';
+        document.getElementById(`cell-c-${day}`).innerText = '-';
+      }
+    }
+
+    // PAGE 3: SUB-SCALE IN-DEPTH SIMULATORS
+    function runPhytoSim() {
+      const waterEl = document.getElementById('phytoWater');
+      const progressEl = document.getElementById('phytoProgress');
+      const toxinLabel = document.getElementById('phytoToxinLabel');
+      
+      waterEl.classList.remove('bg-teal-900/60');
+      waterEl.classList.add('bg-sky-400/40');
+      progressEl.style.width = '100%';
+      
+      let count = 100;
+      let interval = setInterval(() => {
+        count -= 5;
+        toxinLabel.innerText = `Toxin Level: ${count}%`;
+        if(count <= 5) {
+          clearInterval(interval);
+          toxinLabel.innerText = "Toxin Level: 5% (Safe/Clear)";
+        }
+      }, 200);
+    }
+
+    function triggerPathwayStep(stepNum) {
+      const display = document.getElementById('pathwayDisplay');
+      if(stepNum === 1) {
+        display.innerHTML = `
+          <div class="bg-indigo-950 p-2 rounded text-emerald-400 font-mono text-xs w-full">
+            Alkanes Chain: CH₃-CH₂-CH₂-CH₂-CH₂-CH₂-CH₂-CH₃
+          </div>
+          <p class="text-xs text-slate-300 mt-2">The hydrocarbon is highly insoluble, waiting for extracellular enzymes to open up bonds.</p>
+        `;
+      } else if(stepNum === 2) {
+        display.innerHTML = `
+          <div class="bg-indigo-950 p-2 rounded text-emerald-400 font-mono text-xs w-full">
+            Add Monooxygenase: CH₃-(CH₂)₆-CH₂-OH (Octanol)
+          </div>
+          <p class="text-xs text-slate-300 mt-2">Oxidation introduces a terminal hydroxyl group, turning the alkane highly reactive.</p>
+        `;
+      } else if(stepNum === 3) {
+        display.innerHTML = `
+          <div class="bg-indigo-950 p-2 rounded text-emerald-400 font-mono text-xs w-full">
+            Beta-Oxidation Yield: Acetyl-CoA + NADH
+          </div>
+          <p class="text-xs text-slate-300 mt-2">The fatty acids enter standard cell metabolic pathways, converting oil into carbon dioxide and energy.</p>
+        `;
+      }
+    }
+
+    // PAGE 4: SYSTEMS THINKING BUILDER
+    const systemsValidation = {
+      core: 'Hydrocarbon Catabolism by Pseudomonas',
+      control: 'Enzymatic Ph Regulation & Temperature',
+      input: 'Active Sugar & Dissolved Nutrients',
+      unintended: 'Eutrophication Risks in Freshwater'
+    };
+    
+    let studentMapState = {
+      core: '',
+      control: '',
+      input: '',
+      unintended: ''
+    };
+
+    function assignSystemCard(zoneId, cardValue) {
+      studentMapState[zoneId] = cardValue;
+      document.getElementById(`zone-${zoneId}`).innerText = cardValue;
+      document.getElementById(`zone-${zoneId}`).classList.remove('text-slate-500');
+      document.getElementById(`zone-${zoneId}`).classList.add('text-white', 'bg-slate-900/80', 'font-semibold');
+    }
+
+    function checkSystemsMap() {
+      const feedback = document.getElementById('systemsFeedback');
+      feedback.classList.remove('hidden', 'text-emerald-400', 'text-red-400');
+      
+      let isCorrect = true;
+      if(!studentMapState.core.includes('Pseudomonas')) isCorrect = false;
+      if(!studentMapState.control.includes('Enzymatic')) isCorrect = false;
+      if(!studentMapState.input.includes('Sugar')) isCorrect = false;
+      if(!studentMapState.unintended.includes('Eutrophication')) isCorrect = false;
+
+      if(isCorrect) {
+        feedback.innerText = "Perfect alignment! Systems connected successfully. Core metabolism matches control parameters.";
+        feedback.classList.add('text-emerald-400');
+      } else {
+        feedback.innerText = "Incomplete or incorrect matching. Reset card layout and check variables.";
+        feedback.classList.add('text-red-400');
+      }
+    }
+
+    // PAGE 5: SNAKE & LADDER GAME ENGINE
+    let currentPawnTile = 1;
+    let snakeLadderScore = 0;
+    
+    const boardTiles = {
+      3: { type: 'ladder', target: 11, desc: 'Enzyme Monooxygenase speeds up process! Climb up!' },
+      9: { type: 'ladder', target: 21, desc: 'Water Hyacinth cleans pond quickly! Climb up!' },
+      17: { type: 'snake', target: 5, desc: 'Oil slick blocks sunlight to phytoplanktons. Slither down!' },
+      25: { type: 'snake', target: 12, desc: 'Fishery ban triggered due to PAHs toxicity. Slither down!' }
+    };
+
+    // MCQs covering Subscales 1, 2, and 3
+    const mcqBank = [
+      // Subscale 1
+      { q: "Which genus of aerobic bacteria is widely deployed in cleaning ocean oil slicks?", a: ["Pseudomonas", "Lactobacillus", "Saccharomyces"], c: 0 },
+      { q: "What are the core byproducts of complete hydrocarbon aerobic degradation?", a: ["Carbon dioxide + Water", "Octane + Sulfur", "Ozone + Acid rain"], c: 0 },
+      { q: "What acts as the terminal electron acceptor in anaerobic denitrification bioremediation?", a: ["Nitrate (NO3-)", "Oxygen (O2)", "Chlorine (Cl2)"], c: 0 },
+      { q: "What role do decomposers play in restoring local waterways?", a: ["Convert toxic organics to simple molecules", "Consume all algae", "Block solar warmth"], c: 0 },
+      { q: "Why is oxygen crucial during aerobic catabolic cleanups?", a: ["For bacteria to complete respiration", "To freeze the oil slicks", "To bleach the water layer"], c: 0 },
+      // Subscale 2
+      { q: "Phytoremediation refers to using which biological system to clean environments?", a: ["Plants", "Viruses", "Heavy metals"], c: 0 },
+      { q: "Which local aquatic plant is highly effective in absorbing cadmium from schools ponds?", a: ["Water Hyacinth", "Hibiscus flower", "Durian tree"], c: 0 },
+      { q: "Where do heavy metals accumulate safely inside plant cells?", a: ["Vacuoles", "Cell walls", "Ribosomes"], c: 0 },
+      { q: "How do coastal mangrove plants help mitigate estuary oil spillages?", a: ["Root filtration and bio-retaining", "Evaporating the chemicals", "Sinking oil into deep core"], c: 0 },
+      { q: "What is a core limitation of plant-based phytoremediation?", a: ["Processes take weeks/months", "Releases toxic radiation", "Kills the atmosphere"], c: 0 },
+      // Subscale 3
+      { q: "Which key metabolic enzyme inserts active oxygen into the terminal alkane chains?", a: ["Monooxygenase", "Amylase", "Pepsin"], c: 0 },
+      { q: "Identify the product yielded directly after alkane chain terminal oxidation.", a: ["Primary Alcohols", "Lipids", "Amino acids"], c: 0 },
+      { q: "In which cellular process does Acetyl-CoA enter to yield final respiratory energy?", a: ["Krebs Cycle", "Photosynthesis", "Lactic fermentation"], c: 0 },
+      { q: "Which toxic persistent chemical is safely degraded through specialized enzymic actions?", a: ["Polycyclic Aromatic Hydrocarbons (PAHs)", "Polyethylene bags", "Glass pieces"], c: 0 },
+      { q: "What is the primary action of bacterial lipases during cooking oil cleanup?", a: ["Hydrolysis of lipids into fatty acids", "Oxidizing carbon to nitrogen", "Cooling the beaker"], c: 0 }
+    ];
+
+    function renderBoard() {
+      const grid = document.getElementById('boardGrid');
+      grid.innerHTML = '';
+      
+      for(let i=30; i>=1; i--) {
+        const tile = document.createElement('div');
+        tile.className = `h-14 rounded-lg flex flex-col justify-between p-1.5 border relative ${
+          i === currentPawnTile ? 'bg-emerald-600 border-emerald-400 text-white' : 'bg-slate-900 border-slate-800 text-slate-400'
+        }`;
+        
+        let marker = '';
+        if(boardTiles[i]) {
+          marker = boardTiles[i].type === 'ladder' ? '🪜' : '🐍';
+        }
+        
+        tile.innerHTML = `
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="font-bold">${i}</span>
+            <span>${marker}</span>
+          </div>
+          <div class="text-center font-bold text-xs">
+            ${i === currentPawnTile ? '🔴 Pawn' : ''}
+          </div>
+        `;
+        grid.appendChild(tile);
+      }
+    }
+
+    function rollDice() {
+      const dice = Math.floor(Math.random() * 6) + 1;
+      const diceVisual = document.getElementById('diceVisual');
+      diceVisual.innerText = dice;
+      
+      const randomQ = mcqBank[Math.floor(Math.random() * mcqBank.length)];
+      triggerModalQuiz(randomQ, (correct) => {
+        if(correct) {
+          currentPawnTile += dice;
+          snakeLadderScore += 10;
+          
+          if(currentPawnTile > 30) currentPawnTile = 30;
+          
+          if(boardTiles[currentPawnTile]) {
+            const tileAction = boardTiles[currentPawnTile];
+            setTimeout(() => {
+              alert(`${tileAction.desc}`);
+              currentPawnTile = tileAction.target;
+              renderBoard();
+              document.getElementById('pawnPos').innerText = `Tile ${currentPawnTile}`;
+              document.getElementById('boardScore').innerText = snakeLadderScore;
+            }, 800);
+          }
+          
+          renderBoard();
+          document.getElementById('pawnPos').innerText = `Tile ${currentPawnTile}`;
+          document.getElementById('boardScore').innerText = snakeLadderScore;
+          
+          if(currentPawnTile === 30) {
+            alert("Congratulations! You completed the formative board test successfully!");
+          }
+        } else {
+          alert("Incorrect answer. Stay at your current tile.");
+        }
+      });
+    }
+
+    function triggerModalQuiz(qData, callback) {
+      const modal = document.getElementById('quizModal');
+      const questionText = document.getElementById('modalQuestionText');
+      const answersContainer = document.getElementById('modalAnswers');
+      
+      questionText.innerText = qData.q;
+      answersContainer.innerHTML = '';
+      
+      qData.a.forEach((ans, i) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left text-xs p-3 rounded-xl border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium flex items-center justify-between";
+        btn.innerHTML = `<span>${ans}</span>`;
+        btn.onclick = () => {
+          modal.classList.add('hidden');
+          callback(i === qData.c);
+        };
+        answersContainer.appendChild(btn);
+      });
+      
+      modal.classList.remove('hidden');
+    }
+
+    function toggleTeacherInstructions() {
+      const panel = document.getElementById('teacherPanel');
+      panel.classList.toggle('hidden');
+    }
+
+    window.onload = function() {
+      initGameEngine();
+      renderBoard();
+      renderSubscaleQuizzes();
+      
+      // Initialize experimental beakers configuration to raw state
+      resetExperiment();
+    };
+
+    function renderSubscaleQuizzes() {
+      const renderSection = (elemId, startIndex) => {
+        const container = document.getElementById(elemId);
+        container.innerHTML = '';
+        for(let i = startIndex; i < startIndex + 5; i++) {
+          const q = mcqBank[i];
+          const card = document.createElement('div');
+          card.className = "bg-white p-3 rounded-lg border border-slate-200 shadow-2xs mb-2";
+          card.innerHTML = `
+            <p class="font-semibold text-xs text-slate-900 mb-2">${i - startIndex + 1}. ${q.q}</p>
+            <div class="flex flex-col gap-1.5">
+              ${q.a.map((ans, idx) => `
+                <button onclick="checkEmbeddedQuiz(this, ${idx === q.c})" class="text-left text-[11px] p-2 rounded bg-slate-50 border hover:bg-emerald-50 transition border-slate-100 flex items-center justify-between">
+                  <span>${ans}</span>
+                </button>
+              `).join('')}
+            </div>
+          `;
+          container.appendChild(card);
+        }
+      };
+      
+      renderSection('sub1-qContainer', 0);
+      renderSection('sub2-qContainer', 5);
+      renderSection('sub3-qContainer', 10);
+    }
+
+    function checkEmbeddedQuiz(btn, isCorrect) {
+      if(isCorrect) {
+        btn.className = "text-left text-[11px] p-2 rounded bg-emerald-100 border border-emerald-300 text-emerald-800 flex items-center justify-between font-bold";
+      } else {
+        btn.className = "text-left text-[11px] p-2 rounded bg-red-100 border border-red-300 text-red-800 flex items-center justify-between";
+      }
+    }
+
+    /**
+     * AI FEATURE 1: Generates a highly comprehensive scientific lab report based on experiment observations.
+     * Uses: gemini-3-flash-preview
+     */
+    async function generateAILabReport() {
+      const reportModal = document.getElementById('reportModal');
+      const reportContent = document.getElementById('reportContent');
+      const btn = document.getElementById('btnAILabReport');
+      
+      // Update loading status
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span data-en="Analyzing Observations..." data-ms="Menganalisis Pemerhatian...">Analyzing Observations...</span>`;
+      
+      // Collect the current state of observations
+      let expDataSummary = `
+        Experiment Title: Bioremediation of Cooking Oil utilizing active yeast.
+        Current Completed Day: Day ${currentExpDay}.
+        Container A (Control): Water + Cooking Oil. Observed Day 5 Result: ${expLogs[5].A}
+        Container B (Yeast Only): Water + Cooking Oil + Active Yeast. Observed Day 5 Result: ${expLogs[5].B}
+        Container C (Yeast + Sugar): Water + Cooking Oil + Active Yeast + Sugar. Observed Day 5 Result: ${expLogs[5].C}
+      `;
+      
+      const prompt = `Based on the following live virtual experiment dataset, write a detailed and professional secondary-school level Biology Laboratory Report:
+      ${expDataSummary}
+      
+      Your report must follow this layout:
+      1. TITLE (Tajuk)
+      2. OBJECTIVE (Objektif)
+      3. PROBLEM STATEMENT (Pernyataan Masalah)
+      4. HYPOTHESIS & VARIABLES (Hipotesis & Pemboleh Ubah)
+      5. DETAILED OBSERVATION DISCUSSIONS (Analisis Pemerhatian: Discuss why Sugar activation in Container C led to complete enzymatic biodegradation of the oil lipids via microbial respiration pathways vs Container A and B).
+      6. ECO-CONSERVATION APPLICATION (How does this relate to real-world oil spills and biological waste cleanups in Malaysia?)
+      7. CONCLUSION (Kesimpulan)
+      
+      Provide the full report formatted beautifully in clean, readable HTML with headers (h4, h5), paragraphs (p), and list items (li) where applicable. Make it highly structural, fully bilingual (English with italicized Malay translations nested within each paragraph).`;
+
+      const systemPrompt = "You are an expert scientific learning materials developer and biology professor specializing in the Malaysian SPM Form 5 curriculum. Write highly structured, encouraging, and detailed laboratory reports.";
+      const apiKey = ""; // Canvas runtime replaces this with active credentials
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: {
+          parts: [{ text: systemPrompt }]
+        }
+      };
+
+      try {
+        let textResult = await fetchWithExponentialBackoff(apiUrl, payload);
+        reportContent.innerHTML = textResult;
+        reportModal.classList.remove('hidden');
+      } catch (err) {
+        reportContent.innerHTML = `<p class="text-red-500 font-bold">API call failed. Could not communicate with Gemini engine. Please check your network and try again.</p>`;
+        reportModal.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-file-waveform"></i> <span data-en="Compile Lab Report" data-ms="Sediakan Laporan">Compile Lab Report</span>`;
+      }
+    }
+
+    /**
+     * AI FEATURE 2: Uses Google's Imagen 4.0 model to generate real concept illustrations for step-by-step chemical pathways.
+     * Uses: imagen-4.0-generate-001
+     */
+    async function generateAIConceptImage() {
+      const promptInput = document.getElementById('aiImagePrompt');
+      let finalPrompt = promptInput.value.trim();
+      
+      // Fallback to step preset description if input field is blank
+      if (!finalPrompt) {
+        finalPrompt = "A professional scientific textbook diagram illustrating anaerobic Pseudomonas bacteria consuming hydrocarbon carbon rings inside a marine estuary with mangrove roots, colorful organic illustration style.";
+      }
+      
+      const loader = document.getElementById('aiImageLoading');
+      const aiImage = document.getElementById('aiGenImage');
+      
+      // Show loaders
+      loader.classList.remove('hidden');
+      aiImage.classList.add('hidden');
+      
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+      const payload = { instances: { prompt: finalPrompt }, parameters: { "sampleCount": 1 } };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP Error ${response.status}`);
+        }
+        
+        const result = await response.json();
+        if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+          const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+          
+          // Inject generated base64 directly into target image
+          aiImage.src = imageUrl;
+          aiImage.classList.remove('hidden');
+          
+          // Hide standard placeholders
+          document.getElementById('pathwayPlaceholderEmoji').classList.add('hidden');
+          document.getElementById('pathwayPlaceholderText').classList.add('hidden');
+        } else {
+          throw new Error("No image data in response.");
+        }
+      } catch (err) {
+        // Fallback placeholder logic
+        aiImage.src = `https://placehold.co/500x300/0f172a/94a3b8?text=Image+Generation+Timed+Out`;
+        aiImage.classList.remove('hidden');
+      } finally {
+        loader.classList.add('hidden');
+      }
+    }
+
+    /**
+     * AI FEATURE 3: Performs a detailed scientific evaluation of student's card choices in the systems thinking map.
+     * Uses: gemini-3-flash-preview
+     */
+    async function callGeminiSystemsEvaluator() {
+      const btn = document.getElementById('btnAIEvaluateSystems');
+      const feedback = document.getElementById('systemsFeedback');
+      
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span data-en="Evaluating Map..." data-ms="Menilai Peta...">Evaluating Map...</span>`;
+      
+      let mapStateText = `
+        Student Systems Arrangement:
+        1. Core Reaction System: ${studentMapState.core || "Left Blank"}
+        2. Reaction Control Subsystem: ${studentMapState.control || "Left Blank"}
+        3. Chemical Input Subsystem: ${studentMapState.input || "Left Blank"}
+        4. Unintended Consequences: ${studentMapState.unintended || "Left Blank"}
+      `;
+      
+      const prompt = `Analyze the following student layout for a Systems Thinking Map of Bioremediation:
+      ${mapStateText}
+      
+      Is the placement correct? The correct placements should be:
+      - Core Reaction: "Hydrocarbon Catabolism by Pseudomonas"
+      - Reaction Control: "Enzymatic Ph Regulation & Temperature"
+      - Chemical Input: "Active Sugar & Dissolved Nutrients"
+      - Unintended Consequences: "Eutrophication Risks in Freshwater"
+      
+      Provide a highly encouraging evaluation, grade their work out of 100%, and write a brief biology lesson (under 120 words) explaining how these systems dynamically interact in real Malaysian estuary wetlands. Write the response in bilingual format (English and Bahasa Melayu).`;
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: {
+          parts: [{ text: "You are a professional Biology examiner and SPM syllabus designer. Evaluate map states critically but encouragingly." }]
+        }
+      };
+
+      try {
+        let textResult = await fetchWithExponentialBackoff(apiUrl, payload);
+        
+        // Show evaluation inside modal instead of standard feedback label for readability
+        const reportModal = document.getElementById('reportModal');
+        const reportContent = document.getElementById('reportContent');
+        
+        reportContent.innerHTML = `<div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/60 font-medium text-slate-800 space-y-3">
+          <h5 class="font-extrabold text-sm text-emerald-800"><i class="fa-solid fa-graduation-cap"></i> AI Systems Thinking Gradebook Review</h5>
+          <p class="leading-relaxed whitespace-pre-wrap">${textResult}</p>
+        </div>`;
+        
+        reportModal.classList.remove('hidden');
+        feedback.innerText = "Systems critical evaluation compiled successfully!";
+        feedback.classList.remove('hidden', 'text-red-400');
+        feedback.classList.add('text-emerald-400');
+      } catch (err) {
+        feedback.innerText = "Error contacting Gemini API.";
+        feedback.classList.remove('hidden', 'text-emerald-400');
+        feedback.classList.add('text-red-400');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-brain"></i> <span data-en="AI Critical Analysis Check" data-ms="Penilaian Kritikal AI">AI Critical Analysis Check</span>`;
+      }
+    }
+
+    /**
+     * Helper: Performs a POST request to Gemini with exponential backoff on retry.
+     */
+    async function fetchWithExponentialBackoff(url, payload, retries = 3, delay = 1000) {
+      for (let attempt = 0; attempt < retries; attempt++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP Status ${response.status}`);
+          }
+          
+          const result = await response.json();
+          return result.candidates?.[0]?.content?.parts?.[0]?.text || "No text payload returned.";
+        } catch (err) {
+          if (attempt === retries - 1) throw err;
+          // Exponential delay logic
+          await new Promise(res => setTimeout(res, delay * Math.pow(2, attempt)));
+        }
+      }
+    }
+
+    /**
+     * Copy utility supporting sandbox execution constraints
+     */
+    function copyReportToClipboard() {
+      const reportText = document.getElementById('reportContent').innerText;
+      const el = document.createElement('textarea');
+      el.value = reportText;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      alert(currentLanguage === 'en' ? "Lab report copied to clipboard!" : "Laporan makmal berjaya disalin!");
+    }
+
+    // GLOBAL AI CHATBOT SYSTEM ENGINE (Using gemini-3-flash-preview)
+    let chatOpened = false;
+
+    function toggleChat() {
+      const windowEl = document.getElementById('chatWindow');
+      const iconEl = document.getElementById('chatIcon');
+      chatOpened = !chatOpened;
+      if (chatOpened) {
+        windowEl.classList.remove('hidden');
+        iconEl.className = "fa-solid fa-times text-2xl";
+      } else {
+        windowEl.classList.add('hidden');
+        iconEl.className = "fa-solid fa-comment-dots text-2xl";
+      }
+    }
+
+    function handleChatKey(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function sendSuggestedQuestion(question) {
+      document.getElementById('chatInput').value = question;
+      sendMessage();
+    }
+
+    function formatMarkdownText(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="bg-slate-100 px-1 rounded text-red-600 font-mono">$1</code>')
+        .replace(/^\s*\*\s+(.*)$/gm, '<li class="ml-4 list-disc">$1</li>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function appendChatMessage(text, isUser) {
+      const historyContainer = document.getElementById('chatMessages');
+      const bubble = document.createElement('div');
+      
+      if (isUser) {
+        bubble.className = "bg-slate-200 text-slate-800 p-3 rounded-2xl max-w-[85%] self-end rounded-tr-none font-medium leading-relaxed shadow-2xs";
+        bubble.innerHTML = `<p class="mb-0.5 text-[10px] text-slate-500 text-right">You</p><p>${formatMarkdownText(text)}</p>`;
+      } else {
+        bubble.className = "bg-emerald-100/70 border border-emerald-200 text-emerald-900 p-3 rounded-2xl max-w-[85%] self-start rounded-tl-none font-medium leading-relaxed shadow-2xs animate-fade-in";
+        bubble.innerHTML = `<p class="mb-0.5 text-[10px] text-emerald-600">BioGen AI Bot</p><p>${formatMarkdownText(text)}</p>`;
+      }
+      
+      historyContainer.appendChild(bubble);
+      historyContainer.scrollTop = historyContainer.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const inputEl = document.getElementById('chatInput');
+      const query = inputEl.value.trim();
+      if (!query) return;
+
+      appendChatMessage(query, true);
+      inputEl.value = '';
+
+      const loader = document.getElementById('chatLoading');
+      loader.classList.remove('hidden');
+
+      const responseText = await callTutorGeminiAPI(query);
+      loader.classList.add('hidden');
+
+      appendChatMessage(responseText, false);
+    }
+
+    async function callTutorGeminiAPI(studentQuery, retries = 3, delay = 1000) {
+      // Robust prompts specifically customized for Form 5 Malaysian environmental biology context
+      const systemPrompt = "You are an encouraging and knowledgeable AI biology tutor supporting Malaysian Form 5 students on the BioGenSC learning app. Answer questions about bioremediation, Pseudomonas aeruginosa, aerobic vs anaerobic decomposition pathways, environmental biology, water hyacinth phytoremediation, or relevant Malaysian ecological threats. Keep explanations extremely structured, clear, and easy to understand for secondary school students. Output your responses in English and provide a short Bahasa Melayu translation summary enclosed inside italicized tags at the end of each paragraph.";
+      const apiKey = ""; // Left blank so Canvas automatically injects it at runtime
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: studentQuery }] }],
+        systemInstruction: {
+          parts: [{ text: systemPrompt }]
+        }
+      };
+
+      for (let attempt = 0; attempt < retries; attempt++) {
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          
+          const result = await response.json();
+          return result.candidates?.[0]?.content?.parts?.[0]?.text || "I was unable to retrieve a response. Please rephrase your biology query!";
+        } catch (err) {
+          if (attempt === retries - 1) {
+            return "Connection error. I am currently offline. Please check your internet connection or try again shortly.";
+          }
+          // Exponential backoff wait before retrying the fetch
+          await new Promise(res => setTimeout(res, delay * Math.pow(2, attempt)));
+        }
+      }
+    }
+  </script>
+</body>
+</html>
